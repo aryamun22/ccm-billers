@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Practice CCM Report — Medicare Analysis</title>
+<style>
+  :root { --bg:#0b0d10; --fg:#e6e8eb; --mut:#8a93a0; --card:#12161c; --acc:#4f9cf9; --bd:#1e2530; --ok:#22c55e; --warn:#f59e0b; }
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.6 -apple-system,system-ui,Segoe UI,Inter,sans-serif;background:var(--bg);color:var(--fg)}
+  .page{max-width:800px;margin:auto;padding:32px 24px}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:24px}
+  .hero{background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);border-radius:12px;padding:28px 24px;margin-bottom:24px;text-align:center}
+  .hero .rank{font-size:56px;font-weight:700;color:var(--acc)}
+  .hero .of{font-size:16px;color:var(--mut)}
+  .hero .label{font-size:14px;color:var(--fg);margin-top:4px}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+  .kpi{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px 16px;text-align:center}
+  .kpi .v{font-size:24px;font-weight:600}
+  .kpi .l{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:18px 20px;margin-bottom:16px}
+  .card h2{margin:0 0 12px;font-size:14px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--bd);text-align:left}
+  th{color:var(--mut);font-weight:600;text-transform:uppercase;font-size:11px}
+  th.num,td.num{text-align:right}
+  .bar{display:inline-block;height:8px;border-radius:4px;vertical-align:middle;margin-right:6px}
+  .psg{background:#4f9cf9} .ccm{background:#f59e0b} .rpm{background:#a855f7}
+  .gap{background:var(--card);border:2px dashed var(--warn);border-radius:8px;padding:18px 20px;margin-bottom:16px}
+  .gap h2{margin:0 0 8px;font-size:14px;color:var(--warn);text-transform:uppercase;letter-spacing:.05em}
+  .gap .big{font-size:28px;font-weight:700;color:var(--warn)}
+  .gap p{color:var(--mut);font-size:13px;margin:4px 0}
+  .cta{background:linear-gradient(135deg,#1a365d,#2b4c7e);border-radius:8px;padding:24px;text-align:center;margin-top:24px}
+  .cta p{margin:0;font-size:14px}
+  .cta a{color:var(--acc);text-decoration:none;font-weight:600}
+  footer{padding:20px 0;color:var(--mut);font-size:11px;text-align:center;border-top:1px solid var(--bd);margin-top:32px}
+  .muted{color:var(--mut)}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#1b2430;font-size:11px;color:var(--acc)}
+  .not-found{text-align:center;padding:60px 20px;color:var(--mut)}
+  @media print{body{background:#fff;color:#111}.card,.kpi,.hero,.gap,.cta{border:1px solid #ddd;background:#f9f9f9}
+    .bar{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="page" id="app">
+  <div class="not-found" id="loading">Loading practice data…</div>
+</div>
+
+<script>
+const fmt$ = n => "$" + (n||0).toLocaleString(undefined,{maximumFractionDigits:0});
+const fmtN = n => (n||0).toLocaleString();
+const fmtPct = (n,d) => d ? (100*n/d).toFixed(1)+"%" : "0%";
+
+async function load() {
+  const params = new URLSearchParams(location.search);
+  const npi = params.get("npi");
+  const spec = params.get("specialty") || "Endocrinology";
+  if (!npi) {
+    document.getElementById("loading").innerHTML = "Add <code>?npi=XXXXXXXXXX</code> to the URL to generate a practice report.";
+    return;
+  }
+
+  await loadEnrichment();
+  const data = await (await fetch("data.json")).json();
+  const allSpec = data.providers.filter(p => p.specialty === spec);
+  allSpec.sort((a,b) => b.total_payment - a.total_payment);
+  const provider = allSpec.find(p => p.npi === npi);
+  if (!provider) {
+    document.getElementById("loading").innerHTML = `NPI ${esc(npi)} not found in ${esc(spec)} CCM data. This provider may not bill CCM codes.`;
+    return;
+  }
+
+  const rank = allSpec.indexOf(provider) + 1;
+  const total = allSpec.length;
+  const pctile = Math.round(100 * (1 - rank / total));
+  window._provider = provider;
+  const name = provider.name || provider.org || `NPI ${npi}`;
+  const avgPay = allSpec.reduce((s,p) => s + p.total_payment, 0) / allSpec.length;
+  const avgSvc = allSpec.reduce((s,p) => s + p.services, 0) / allSpec.length;
+  const codes = provider.codes || {};
+
+  // Estimate missed revenue: if they're not billing CCM add-ons or complex codes
+  const has99439 = (codes["99439"] || 0) > 0;
+  const has99487 = (codes["99487"] || 0) > 0;
+  const has99491 = (codes["99491"] || 0) > 0;
+  const hasRPM = false; // we don't have RPM in this dataset for this provider
+  const base99490 = codes["99490"] || 0;
+  const potential99439 = has99439 ? 0 : Math.round(base99490 * 0.3);
+  const potentialRPM = Math.round(provider.benes * 120 * 12 / 100); // rough RPM estimate
+  const gapDollars = (potential99439 * 30) + potentialRPM; // very rough
+
+  const stateProviders = allSpec.filter(p => p.state === provider.state);
+  const stateRank = stateProviders.sort((a,b) => b.total_payment - a.total_payment).indexOf(provider) + 1;
+
+  document.getElementById("app").innerHTML = `
+    <h1>${esc(name)}</h1>
+    <div class="sub">
+      ${esc(spec)} • ${esc(provider.city)}, ${esc(provider.state)} • NPI ${esc(npi)}<br/>
+      2023 Medicare Part B — Chronic Care Management Analysis
+    </div>
+
+    <div class="hero">
+      <div class="rank">#${rank}</div>
+      <div class="of">out of ${fmtN(total)} ${esc(spec)} practices billing CCM nationwide</div>
+      <div class="label">Top ${fmtPct(rank, total) === "0.0%" ? "<1" : (100 - pctile)}% nationally · #${stateRank} in ${esc(provider.state)}</div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="l">CCM Services</div><div class="v">${fmtN(provider.services)}</div></div>
+      <div class="kpi"><div class="l">Medicare Beneficiaries</div><div class="v">${fmtN(provider.benes)}</div></div>
+      <div class="kpi"><div class="l">Medicare CCM Revenue</div><div class="v">${fmt$(provider.total_payment)}</div></div>
+    </div>
+
+    <div class="card">
+      <h2>Your CCM code mix (2023)</h2>
+      <table>
+        <thead><tr><th>CPT/HCPCS</th><th>Description</th><th class="num">Services</th><th class="num">% of your total</th></tr></thead>
+        <tbody>
+          ${Object.entries(codes).sort((a,b)=>b[1]-a[1]).map(([c,n]) => `
+            <tr>
+              <td><b>${esc(c)}</b></td>
+              <td class="muted">${codeLabel(c)}</td>
+              <td class="num">${fmtN(n)}</td>
+              <td class="num">${fmtPct(n, provider.services)}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>How you compare — ${esc(spec)} nationwide</h2>
+      <table>
+        <thead><tr><th>Metric</th><th class="num">Your practice</th><th class="num">National avg (${fmtN(total)} practices)</th><th class="num">You vs. avg</th></tr></thead>
+        <tbody>
+          <tr><td>CCM services/year</td><td class="num"><b>${fmtN(provider.services)}</b></td><td class="num">${fmtN(Math.round(avgSvc))}</td><td class="num" style="color:${provider.services > avgSvc ? 'var(--ok)' : 'var(--warn)'}">${provider.services > avgSvc ? "+" : ""}${fmtN(Math.round(provider.services - avgSvc))}</td></tr>
+          <tr><td>Medicare CCM revenue</td><td class="num"><b>${fmt$(provider.total_payment)}</b></td><td class="num">${fmt$(avgPay)}</td><td class="num" style="color:${provider.total_payment > avgPay ? 'var(--ok)' : 'var(--warn)'}">${provider.total_payment > avgPay ? "+" : ""}${fmt$(provider.total_payment - avgPay)}</td></tr>
+          <tr><td>Beneficiaries enrolled</td><td class="num"><b>${fmtN(provider.benes)}</b></td><td class="num">${fmtN(Math.round(allSpec.reduce((s,p)=>s+p.benes,0)/total))}</td><td class="num">${fmtN(provider.benes - Math.round(allSpec.reduce((s,p)=>s+p.benes,0)/total))}</td></tr>
+          <tr><td>Uses 99439 add-on</td><td class="num">${has99439 ? '<span style="color:var(--ok)">Yes</span>' : '<span style="color:var(--warn)">No</span>'}</td><td class="num muted">18% of practices</td><td class="num"></td></tr>
+          <tr><td>Uses complex CCM (99487)</td><td class="num">${has99487 ? '<span style="color:var(--ok)">Yes</span>' : '<span style="color:var(--warn)">No</span>'}</td><td class="num muted">5% of practices</td><td class="num"></td></tr>
+          <tr><td>Uses 99491 (physician-personal)</td><td class="num">${has99491 ? '<span style="color:var(--ok)">Yes</span>' : '<span style="color:var(--warn)">No</span>'}</td><td class="num muted">3% of practices</td><td class="num"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    ${(!has99439 || !has99487) ? `
+    <div class="gap">
+      <h2>Potential revenue you may be leaving on the table</h2>
+      ${!has99439 ? `<p>You bill <b>${fmtN(base99490)}</b> base CCM (99490) services but <b>zero 99439 add-ons</b>. If even 30% of your patients need >20 min/month, that's ~<b class="big">${fmtN(potential99439)} additional billable sessions</b> × $30 avg reimbursement = <b>${fmt$(potential99439 * 30)}/year</b> from a code you're already set up to bill.</p>` : ""}
+      ${!has99487 ? `<p>You don't bill <b>complex CCM (99487/99489)</b>. For endocrinology patients with 3+ chronic conditions on active management, the complex codes reimburse <b>$93+/session</b> vs. $62 for standard — a 50% increase per encounter for the same population.</p>` : ""}
+    </div>` : ""}
+
+    ${renderEnrichment(npi)}
+
+    <div class="card">
+      <h2>National context</h2>
+      <p>Only <b>139 endocrinologists</b> out of ~7,000 nationwide billed any CCM code in 2023. That's <b>2% of the specialty</b>. You are in that 2%.</p>
+      <p>Total Medicare CCM revenue across all 139 endocrinology practices: <b>$3,506,050</b>. Your practice accounts for <b>${fmtPct(provider.total_payment, 3506050)}</b> of the national total.</p>
+      <p style="color:var(--mut);font-size:12px;margin-top:12px">Source: CMS Medicare Physician & Other Practitioners — by Provider and Service (2023 public use file). 9,660,647 rows analyzed.</p>
+    </div>
+
+    <div class="cta">
+      <p>This report was prepared as part of ongoing research into CCM adoption patterns in endocrinology.<br/>
+      Questions or want the full national dataset? Discord: <b>aryd01</b> · <a href="https://www.linkedin.com/in/aryamun-das-ba58b1357/" target="_blank" rel="noopener">LinkedIn</a></p>
+    </div>
+
+    <footer>
+      Data source: CMS Medicare Physician & Other Practitioners — by Provider and Service (2023)<br/>
+      Analysis methodology: 9.66M claim rows filtered to CCM HCPCS codes (99490, 99439, 99487, 99489, 99491, 99437, G0506) × Endocrinology rendering specialty.<br/>
+      This report is for informational purposes only and does not constitute medical, legal, or financial advice.
+    </footer>
+  `;
+  document.title = name + " — CCM Practice Report";
+}
+
+let ENRICH = null;
+async function loadEnrichment() {
+  try { ENRICH = await (await fetch("enrichment.json")).json(); } catch(e) { ENRICH = null; }
+}
+
+function renderEnrichment(npi) {
+  if (!ENRICH) return "";
+  let html = "";
+
+  // YoY section
+  const yoy = ENRICH.yoy_2022?.[npi];
+  const ds = ENRICH.drug_summary?.[npi];
+
+  if (yoy) {
+    const pay22 = yoy.payment_2022 || 0;
+    const svc22 = yoy.services_2022 || 0;
+    const ben22 = yoy.benes_2022 || 0;
+    // We need 2023 from the main data — passed via global
+    const pay23 = window._provider?.total_payment || 0;
+    const svc23 = window._provider?.services || 0;
+    const ben23 = window._provider?.benes || 0;
+    const payGrowth = pay22 > 0 ? ((pay23 - pay22) / pay22 * 100) : null;
+    const svcGrowth = svc22 > 0 ? ((svc23 - svc22) / svc22 * 100) : null;
+
+    html += `<div class="card">
+      <h2>Year-over-Year Growth (2022 → 2023)</h2>
+      <table>
+        <thead><tr><th>Metric</th><th class="num">2022</th><th class="num">2023</th><th class="num">Change</th></tr></thead>
+        <tbody>
+          <tr><td>CCM Services</td><td class="num">${fmtN(svc22)}</td><td class="num"><b>${fmtN(svc23)}</b></td>
+            <td class="num" style="color:${svcGrowth>0?'var(--ok)':'var(--warn)'}">${svcGrowth!==null?(svcGrowth>0?'+':'')+svcGrowth.toFixed(0)+'%':'N/A'}</td></tr>
+          <tr><td>Medicare CCM Revenue</td><td class="num">${fmt$(pay22)}</td><td class="num"><b>${fmt$(pay23)}</b></td>
+            <td class="num" style="color:${payGrowth>0?'var(--ok)':'var(--warn)'}">${payGrowth!==null?(payGrowth>0?'+':'')+payGrowth.toFixed(0)+'%':'N/A'}</td></tr>
+          <tr><td>Beneficiaries Enrolled</td><td class="num">${fmtN(ben22)}</td><td class="num"><b>${fmtN(ben23)}</b></td>
+            <td class="num">${ben22>0?((ben23-ben22)/ben22*100>0?'+':'')+(((ben23-ben22)/ben22)*100).toFixed(0)+'%':'N/A'}</td></tr>
+        </tbody>
+      </table>
+    </div>`;
+  } else if (window._provider?.total_payment > 0) {
+    html += `<div class="card" style="border-color:var(--ok)">
+      <h2>Year-over-Year Growth</h2>
+      <p style="font-size:16px"><b style="color:var(--ok)">New CCM biller in 2023.</b> No CCM claims found in 2022 data — this practice started billing chronic care management in the most recent data year.</p>
+    </div>`;
+  }
+
+  // Part D drug summary
+  if (ds && ds.total_drugs > 0) {
+    html += `<div class="card">
+      <h2>Part D Prescribing Profile (2023)</h2>
+      <p>${fmtN(ds.total_drugs)} distinct drugs · ${fmtN(ds.total_claims)} total claims · ${fmt$(ds.total_cost)} drug cost</p>`;
+
+    if (ds.glp1 && ds.glp1.claims > 0) {
+      html += `<div style="margin:12px 0;padding:12px;background:#1a2332;border-radius:8px;border-left:4px solid var(--ok)">
+        <b style="color:var(--ok)">GLP-1 Agonists: ${fmtN(ds.glp1.claims)} claims · ${fmtN(ds.glp1.benes)} patients · ${fmt$(ds.glp1.cost)}</b>
+        <table style="margin-top:8px">
+          <thead><tr><th>Drug</th><th class="num">Claims</th><th class="num">Patients</th><th class="num">Cost</th></tr></thead>
+          <tbody>${ds.glp1.drugs.map(d => `<tr><td>${esc(d.brand)}</td><td class="num">${fmtN(d.claims)}</td><td class="num">${fmtN(d.benes)}</td><td class="num">${fmt$(d.cost)}</td></tr>`).join("")}</tbody>
+        </table>
+        <p class="muted" style="margin:8px 0 0;font-size:12px">Every GLP-1 patient has T2D + at minimum one additional chronic condition = automatic CCM eligibility under Medicare guidelines.</p>
+      </div>`;
+    }
+
+    if (ds.insulin && ds.insulin.claims > 0) {
+      html += `<p><b>Insulin:</b> ${fmtN(ds.insulin.claims)} claims · ${fmtN(ds.insulin.benes)} patients · ${fmt$(ds.insulin.cost)} — complex metabolic management, candidates for 99487 (complex CCM).</p>`;
+    }
+    if (ds.sglt2 && ds.sglt2.claims > 0) {
+      html += `<p><b>SGLT2 inhibitors:</b> ${fmtN(ds.sglt2.claims)} claims · ${fmt$(ds.sglt2.cost)} — cardiorenal protection, multi-chronic overlap.</p>`;
+    }
+
+    html += `<details style="margin-top:8px"><summary class="muted">Top 10 drugs by cost</summary>
+      <table><thead><tr><th>Drug</th><th>Generic</th><th class="num">Claims</th><th class="num">Cost</th></tr></thead>
+      <tbody>${ds.top10.map(d => `<tr><td>${esc(d.brand)}</td><td class="muted">${esc(d.generic?.substring(0,30))}</td><td class="num">${fmtN(d.claims)}</td><td class="num">${fmt$(d.cost)}</td></tr>`).join("")}</tbody>
+      </table></details>`;
+
+    html += `</div>`;
+  }
+
+  return html;
+}
+
+function codeLabel(c) {
+  const labels = {
+    "99490": "CCM 20 min/month (staff time)",
+    "99439": "CCM add-on each additional 20 min",
+    "99487": "Complex CCM first 60 min",
+    "99489": "Complex CCM add-on 30 min",
+    "99491": "CCM 30 min (physician personally)",
+    "99437": "CCM add-on (to 99491)",
+    "G0506": "Comprehensive assessment for CCM",
+  };
+  return labels[c] || c;
+}
+
+function esc(s) { return String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+
+load().catch(e => { document.getElementById("loading").textContent = "Error: " + e; });
+</script>
+</body>
+</html>

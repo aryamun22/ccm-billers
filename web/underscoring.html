@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Structural Underscoring in Sleep Medicine — AASM ↔ CMS Influence Analysis</title>
+<meta name="description" content="Analysis of how AASM scoring rules and CMS reimbursement policy create structural underscoring of sleep apnea severity. 9.66M Medicare claims analyzed." />
+<style>
+  :root { --bg:#0b0d10; --fg:#e6e8eb; --mut:#8a93a0; --card:#12161c; --acc:#4f9cf9; --bd:#1e2530; --ok:#22c55e; --warn:#f59e0b; --danger:#ef4444; }
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.7 -apple-system,system-ui,'Segoe UI',Inter,sans-serif;background:var(--bg);color:var(--fg)}
+  .page{max-width:820px;margin:auto;padding:40px 24px 60px}
+  h1{font-size:24px;margin:0 0 6px;line-height:1.3}
+  h2{font-size:18px;margin:40px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--bd)}
+  h3{font-size:15px;margin:24px 0 8px;color:var(--acc)}
+  .meta{color:var(--mut);font-size:13px;margin-bottom:32px}
+  .meta a{color:var(--acc);text-decoration:none}
+  p{margin:0 0 14px}
+  pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;overflow-x:auto;font:13px/1.5 'SF Mono',Menlo,Consolas,monospace;color:var(--mut);margin:0 0 20px}
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:18px 20px;margin:0 0 16px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:0 0 16px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--bd);text-align:left}
+  th{color:var(--mut);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.04em}
+  th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr:hover td{background:#161c25}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 20px}
+  .kpi{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px 16px;text-align:center}
+  .kpi .v{font-size:22px;font-weight:700}
+  .kpi .l{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  .highlight{border-left:3px solid var(--warn);padding-left:16px;margin:16px 0}
+  .highlight.danger{border-color:var(--danger)}
+  .highlight.ok{border-color:var(--ok)}
+  b{color:var(--fg)}
+  strong{color:var(--warn)}
+  a{color:var(--acc);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;margin-right:4px}
+  .pill.high{background:#2d1a1a;color:var(--danger)} .pill.mod{background:#2d2a1a;color:var(--warn)} .pill.low{background:#1a2d1a;color:var(--ok)}
+  sup{font-size:10px;color:var(--mut)}
+  .sources{margin-top:40px;padding-top:20px;border-top:1px solid var(--bd);font-size:12px;color:var(--mut)}
+  .sources ol{padding-left:20px}
+  .sources a{color:var(--mut)}
+  footer{margin-top:40px;padding:20px 0;border-top:1px solid var(--bd);color:var(--mut);font-size:12px;text-align:center}
+  @media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}table{font-size:12px}th,td{padding:6px 6px}}
+  @media print{body{background:#fff;color:#111}.card,.kpi{border:1px solid #ddd;background:#f5f5f5}.highlight{border-color:#666}pre{background:#f5f5f5;color:#333}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Structural Underscoring in Sleep Medicine</h1>
+<p style="font-size:17px;color:var(--mut);margin:0 0 4px">How AASM Scoring Rules and CMS Reimbursement Policy Systematically Reduce Reported Sleep Apnea Severity</p>
+<div class="meta">
+  Analysis by <a href="https://www.linkedin.com/in/aryamun-das-ba58b1357/" target="_blank" rel="noopener">aryd01</a> · April 2026<br/>
+  Data: CMS Medicare Physician &amp; Other Practitioners — by Provider and Service (2023) · 9,660,647 claim rows analyzed<br/>
+  Scope: 4,403 NPIs billing sleep diagnostic codes · 2,926 providers with ≥50 studies
+</div>
+
+<!-- ─── SECTION 1: INFLUENCE LOOP ─── -->
+<h2>1. The AASM ↔ CMS Influence Loop</h2>
+
+<p>The American Academy of Sleep Medicine (AASM) writes the clinical scoring rules that define how sleep studies are interpreted. The Centers for Medicare &amp; Medicaid Services (CMS) references these rules in coverage determinations — but selectively adopts a stricter variant that reduces diagnostic sensitivity. The result is a feedback loop where clinical science and cost containment are structurally at odds.</p>
+
+<pre>
+AASM writes scoring rules ──→ CMS references in LCDs ──→ Insurers adopt
+     ↑                              ↓                          ↓
+     │                    Rules determine who gets         Payers choose
+     │                    diagnosed (AHI threshold)        1A vs 1B rule
+     │                              ↓                          ↓
+     │                    Diagnosis determines              Stricter rule
+     │                    treatment pathway                = fewer diagnoses
+     │                              ↓                     = lower cost
+     │                    Treatment generates               ↓
+     │                    claims (PAP, supplies)       Medicare uses 1B (4%)
+     │                              ↓                  AASM recommends 1A (3%)
+     │                    Claims data feeds back            ↓
+     └──────────── RUC sets RVUs ←── CMS adjusts ←── This tension IS the game
+</pre>
+
+<div class="card">
+  <h3>How AASM influences CMS</h3>
+  <ul>
+    <li><b>RUC (Relative Value Scale Update Committee):</b> AASM representatives sit on the AMA's RUC, which recommends RVUs for sleep CPT codes. CMS accepts RUC recommendations &gt;90% of the time. However, AASM has acknowledged they <em>lack</em> representation in the AMA House of Delegates, which weakens their influence over the RUC process.<sup>1</sup></li>
+    <li><b>Clinical practice guidelines:</b> AASM writes the scoring manual (AASM Manual for the Scoring of Sleep and Associated Events) which defines how PSG and HSAT are interpreted. CMS and MACs reference these guidelines in Local Coverage Determinations (LCDs).</li>
+    <li><b>Comment letters:</b> AASM files formal comments on every annual MPFS (Medicare Physician Fee Schedule) proposed rule. These are public on regulations.gov.</li>
+    <li><b>JCSM editorials:</b> Position papers in the Journal of Clinical Sleep Medicine become the intellectual basis for LCD changes.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>How CMS influences clinical behavior</h3>
+  <ul>
+    <li><b>Reimbursement rates</b> determine whether sleep labs are profitable. CMS cuts to PSG rates have driven the shift toward HSAT.</li>
+    <li><b>Coverage determinations</b> (LCDs/NCDs) define which patients qualify for PAP coverage — and which scoring rule must be used.</li>
+    <li><b>The 90-day PAP compliance rule</b> (CFR §410.38(c)) forces clinics to document adherence at 30/60/90 days or Medicare stops paying for the device.</li>
+    <li><b>Medicare Advantage</b> plans layer additional prior authorization requirements that further restrict access.</li>
+  </ul>
+</div>
+
+<!-- ─── SECTION 2: UNDERSCORING MECHANISMS ─── -->
+<h2>2. Three Structural Underscoring Mechanisms</h2>
+
+<h3>Mechanism A: The Hypopnea Scoring War (AASM 1A vs CMS 1B)</h3>
+
+<p>This is the single most important political fact in sleep medicine.</p>
+
+<table>
+  <thead><tr><th>Rule</th><th>Definition</th><th>Effect on AHI</th><th>Who uses it</th></tr></thead>
+  <tbody>
+    <tr><td><b>AASM Rule 1A</b> (recommended)</td><td>Hypopnea = ≥30% airflow reduction for ≥10 sec with <b>≥3% O₂ desat OR arousal</b></td><td style="color:var(--ok)">Higher AHI — more events counted</td><td>AASM-accredited centers (clinical reporting)</td></tr>
+    <tr><td><b>CMS Rule 1B</b> (mandated for Medicare)</td><td>Hypopnea = ≥30% airflow reduction for ≥10 sec with <b>≥4% O₂ desat only</b></td><td style="color:var(--danger)">Lower AHI — arousals excluded, higher threshold</td><td>All Medicare claims; many commercial payers</td></tr>
+  </tbody>
+</table>
+
+<div class="highlight danger">
+  <p><b>CMS chose 1B as a cost-containment strategy.</b> Fewer patients cross the AHI ≥5 threshold → fewer OSA diagnoses → fewer PAP prescriptions → lower Medicare spend.</p>
+  <p><strong>Impact: 26.4% of patients who have OSA under 1A scoring are reclassified as NOT having OSA (or less severe) under 1B scoring.</strong><sup>2</sup></p>
+</div>
+
+<h3>Mechanism B: HSAT vs In-Lab PSG (Mechanical Underscoring)</h3>
+
+<p>Home Sleep Apnea Testing (HSAT) mechanically underscores AHI because:</p>
+<ul>
+  <li><b>No EEG</b> → cannot measure actual sleep time → uses total recording time (TRT) as denominator → dilutes AHI</li>
+  <li><b>Patient awake during recording</b> → time awake inflates denominator → AHI drops</li>
+  <li><b>Fewer channels</b> → misses central apneas, upper airway resistance events, some hypopneas</li>
+  <li><b>Age bias:</b> older patients spend more time awake → greater underestimation<sup>5</sup></li>
+</ul>
+
+<div class="highlight danger">
+  <p><strong>Published finding:</strong> of all patients with OSA on PSG, 26.4% would be reclassified as having less severe or no OSA after recalculating AHI using time-in-bed (HSAT methodology) rather than total sleep time (PSG methodology).<sup>3</sup></p>
+</div>
+
+<h3>Mechanism C: Combined Stack (HSAT + 1B Scoring)</h3>
+
+<p>When a practice uses HSAT (mechanical underscoring) <em>and</em> scores with CMS 1B rule (regulatory underscoring), the two effects compound. A patient whose true in-lab 1A AHI is 18 (moderate OSA) could score as AHI 9 (mild) or even AHI 4 (no OSA) under HSAT + 1B. This is not fraud — it is the structural result of CMS cost-containment policy applied to a less-sensitive diagnostic modality.</p>
+
+<!-- ─── SECTION 3: DATA ─── -->
+<h2>3. Data: HSAT Ratio by Practice (2023 Medicare Claims)</h2>
+
+<div class="kpis">
+  <div class="kpi"><div class="l">NPIs Analyzed</div><div class="v">2,926</div></div>
+  <div class="kpi"><div class="l">Avg HSAT Ratio</div><div class="v">28.0%</div></div>
+  <div class="kpi"><div class="l">100% HSAT (zero PSG)</div><div class="v">239</div></div>
+  <div class="kpi"><div class="l">100% In-Lab PSG</div><div class="v">881</div></div>
+</div>
+
+<h3>HSAT Ratio by Specialty (≥10 providers)</h3>
+<table>
+  <thead><tr><th>Specialty</th><th class="num">Providers</th><th class="num">Avg HSAT Ratio</th><th class="num">Total Studies</th><th>Underscoring Risk</th></tr></thead>
+  <tbody>
+    <tr><td>Cardiology</td><td class="num">20</td><td class="num"><b>37%</b></td><td class="num">3,914</td><td><span class="pill high">High</span> HSAT misses central apnea in CHF</td></tr>
+    <tr><td>Otolaryngology / ENT</td><td class="num">71</td><td class="num"><b>36%</b></td><td class="num">12,245</td><td><span class="pill high">High</span> May underestimate before surgical decisions</td></tr>
+    <tr><td>Pulmonary Disease</td><td class="num">1,249</td><td class="num">30%</td><td class="num">195,118</td><td><span class="pill mod">Moderate</span> High-volume, mixed HSAT/PSG</td></tr>
+    <tr><td>Critical Care</td><td class="num">113</td><td class="num">30%</td><td class="num">16,204</td><td><span class="pill mod">Moderate</span></td></tr>
+    <tr><td>Internal Medicine</td><td class="num">243</td><td class="num">27%</td><td class="num">34,400</td><td><span class="pill mod">Moderate</span></td></tr>
+    <tr><td>Sleep Medicine</td><td class="num">499</td><td class="num">27%</td><td class="num">85,438</td><td><span class="pill low">Lower</span> Own PSG labs, less HSAT-dependent</td></tr>
+    <tr><td>Pediatric Medicine</td><td class="num">16</td><td class="num">27%</td><td class="num">1,858</td><td><span class="pill mod">Moderate</span></td></tr>
+    <tr><td>Family Practice</td><td class="num">56</td><td class="num">26%</td><td class="num">9,715</td><td><span class="pill mod">Moderate</span></td></tr>
+    <tr><td>Neurology</td><td class="num">365</td><td class="num">25%</td><td class="num">58,301</td><td><span class="pill mod">Moderate</span></td></tr>
+    <tr><td>Psychiatry</td><td class="num">33</td><td class="num">22%</td><td class="num">4,502</td><td><span class="pill low">Lower</span></td></tr>
+    <tr><td>IDTFs</td><td class="num">227</td><td class="num">19%</td><td class="num">56,329</td><td><span class="pill low">Lower</span> PSG-lab IDTFs do mostly in-lab</td></tr>
+  </tbody>
+</table>
+
+<h3>Top 30 Practices by HSAT Ratio (≥50 studies) — Structural Underscoring Signal</h3>
+<div style="overflow-x:auto">
+<table>
+  <thead><tr><th>#</th><th>Name</th><th>City</th><th>ST</th><th>Specialty</th><th class="num">PSG</th><th class="num">HSAT</th><th class="num">Total</th><th class="num">HSAT%</th><th class="num">Medicare $</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Barton Schneyer</td><td>Southport</td><td>NC</td><td>Pulmonary</td><td class="num">0</td><td class="num">51</td><td class="num">51</td><td class="num">100%</td><td class="num">$3,501</td></tr>
+    <tr><td>2</td><td>Joseph Crocetti</td><td>Abington</td><td>PA</td><td>Pulmonary</td><td class="num">0</td><td class="num">50</td><td class="num">50</td><td class="num">100%</td><td class="num">$1,734</td></tr>
+    <tr><td>3</td><td>Peter Ricketti</td><td>Trenton</td><td>NJ</td><td>Allergy/Immun</td><td class="num">0</td><td class="num">56</td><td class="num">56</td><td class="num">100%</td><td class="num">$2,686</td></tr>
+    <tr><td>4</td><td>Domenick Sorresso</td><td>Hudson</td><td>FL</td><td>Pulmonary</td><td class="num">0</td><td class="num">52</td><td class="num">52</td><td class="num">100%</td><td class="num">$3,638</td></tr>
+    <tr><td>5</td><td>Rajiv Nanavaty</td><td>Suffolk</td><td>VA</td><td>Neurology</td><td class="num">0</td><td class="num">76</td><td class="num">76</td><td class="num">100%</td><td class="num">$5,095</td></tr>
+    <tr><td>6</td><td>Pawan Chawla</td><td>Tacoma</td><td>WA</td><td>Pulmonary</td><td class="num">0</td><td class="num">69</td><td class="num">69</td><td class="num">100%</td><td class="num">$2,018</td></tr>
+    <tr><td>7</td><td>Ari Wirtschafter</td><td>Boca Raton</td><td>FL</td><td>ENT</td><td class="num">0</td><td class="num">72</td><td class="num">72</td><td class="num">100%</td><td class="num">$2,191</td></tr>
+    <tr><td>8</td><td>Trustin Ennacheril</td><td>Kittery</td><td>ME</td><td>Sleep Medicine</td><td class="num">0</td><td class="num">53</td><td class="num">53</td><td class="num">100%</td><td class="num">$1,669</td></tr>
+    <tr><td>9</td><td>Ramin Mehdian</td><td>Newbury Park</td><td>CA</td><td>Pulmonary</td><td class="num">0</td><td class="num">61</td><td class="num">61</td><td class="num">100%</td><td class="num">$2,220</td></tr>
+    <tr><td>10</td><td><b>Sleeptopia Inc</b></td><td>Wichita</td><td>KS</td><td>IDTF</td><td class="num">0</td><td class="num"><b>628</b></td><td class="num">628</td><td class="num">100%</td><td class="num">$23,909</td></tr>
+    <tr><td>11</td><td>Dana Baker</td><td>Round Rock</td><td>TX</td><td>Family Practice</td><td class="num">0</td><td class="num">74</td><td class="num">74</td><td class="num">100%</td><td class="num">$2,486</td></tr>
+    <tr><td>12</td><td>Samir Shah</td><td>Newton</td><td>NJ</td><td>Pulmonary</td><td class="num">0</td><td class="num">106</td><td class="num">106</td><td class="num">100%</td><td class="num">$7,827</td></tr>
+    <tr><td>13</td><td>Robert Gordon</td><td>Oklahoma City</td><td>OK</td><td>Pulmonary</td><td class="num">0</td><td class="num">75</td><td class="num">75</td><td class="num">100%</td><td class="num">$3,922</td></tr>
+    <tr><td>14</td><td>Payam Aghassi</td><td>Leominster</td><td>MA</td><td>Pulmonary</td><td class="num">0</td><td class="num">103</td><td class="num">103</td><td class="num">100%</td><td class="num">$7,026</td></tr>
+    <tr><td>15</td><td>Ashish Patel</td><td>Pasadena</td><td>CA</td><td>Sleep Medicine</td><td class="num">0</td><td class="num">134</td><td class="num">134</td><td class="num">100%</td><td class="num">$10,238</td></tr>
+    <tr><td>16</td><td>Mayank Patel</td><td>Houston</td><td>TX</td><td>Pulmonary</td><td class="num">0</td><td class="num">58</td><td class="num">58</td><td class="num">100%</td><td class="num">$3,637</td></tr>
+    <tr><td>17</td><td>Garrick Applebee</td><td>Burlington</td><td>VT</td><td>Sleep Medicine</td><td class="num">0</td><td class="num">74</td><td class="num">74</td><td class="num">100%</td><td class="num">$5,016</td></tr>
+    <tr><td>18</td><td>Richard Miller</td><td>Newark</td><td>NJ</td><td>Pulmonary</td><td class="num">0</td><td class="num">73</td><td class="num">73</td><td class="num">100%</td><td class="num">$2,601</td></tr>
+    <tr><td>19</td><td>Michael Spandorfer</td><td>Charleston</td><td>SC</td><td>Pulmonary</td><td class="num">0</td><td class="num">86</td><td class="num">86</td><td class="num">100%</td><td class="num">$4,633</td></tr>
+    <tr><td>20</td><td>Amaiak Chilingaryan</td><td>Glendale</td><td>CA</td><td>Neurology</td><td class="num">0</td><td class="num">79</td><td class="num">79</td><td class="num">100%</td><td class="num">$6,484</td></tr>
+    <tr><td>21</td><td><b>HomeSleep LLC</b></td><td>Paramus</td><td>NJ</td><td>IDTF</td><td class="num">0</td><td class="num"><b>407</b></td><td class="num">407</td><td class="num">100%</td><td class="num">$25,521</td></tr>
+    <tr><td>22</td><td>Martha Preciado</td><td>Los Angeles</td><td>CA</td><td>Cardiology</td><td class="num">0</td><td class="num">224</td><td class="num">224</td><td class="num">100%</td><td class="num">$18,277</td></tr>
+    <tr><td>23</td><td>Sharad Dass</td><td>San Jose</td><td>CA</td><td>Pulmonary</td><td class="num">0</td><td class="num">83</td><td class="num">83</td><td class="num">100%</td><td class="num">$7,418</td></tr>
+    <tr><td>24</td><td>Rebeca Maynard</td><td>Lebanon</td><td>IN</td><td>Internal Med</td><td class="num">0</td><td class="num">84</td><td class="num">84</td><td class="num">100%</td><td class="num">$2,619</td></tr>
+    <tr><td>25</td><td>Stephen Jackson</td><td>Abilene</td><td>TX</td><td>Internal Med</td><td class="num">0</td><td class="num">58</td><td class="num">58</td><td class="num">100%</td><td class="num">$3,624</td></tr>
+    <tr><td>26</td><td>Integrated Sleep Solutions</td><td>Ocean Springs</td><td>MS</td><td>IDTF</td><td class="num">0</td><td class="num">56</td><td class="num">56</td><td class="num">100%</td><td class="num">$1,661</td></tr>
+    <tr><td>27</td><td>Jingtao Huang</td><td>Chicago</td><td>IL</td><td>Sleep Medicine</td><td class="num">0</td><td class="num">74</td><td class="num">74</td><td class="num">100%</td><td class="num">$4,151</td></tr>
+    <tr><td>28</td><td>Guardian Sleep Clinic LLC</td><td>San Jose</td><td>CA</td><td>IDTF</td><td class="num">0</td><td class="num">72</td><td class="num">72</td><td class="num">100%</td><td class="num">$4,602</td></tr>
+    <tr><td>29</td><td>Wesley Fleming</td><td>Irvine</td><td>CA</td><td>Undefined</td><td class="num">0</td><td class="num">339</td><td class="num">339</td><td class="num">100%</td><td class="num">$25,650</td></tr>
+    <tr><td>30</td><td>Agnieszka Palecki</td><td>Barnegat</td><td>NJ</td><td>Pulmonary</td><td class="num">0</td><td class="num">87</td><td class="num">87</td><td class="num">100%</td><td class="num">$7,032</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Top 20 Practices by PSG Ratio (100% In-Lab)</h3>
+<div style="overflow-x:auto">
+<table>
+  <thead><tr><th>#</th><th>Name</th><th>City</th><th>ST</th><th>Specialty</th><th class="num">PSG</th><th class="num">HSAT</th><th class="num">Total</th><th class="num">Titration Ratio</th><th class="num">Medicare $</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>William Wade</td><td>South Charleston</td><td>WV</td><td>Pulmonary</td><td class="num">54</td><td class="num">0</td><td class="num">54</td><td class="num">44%</td><td class="num">$13,440</td></tr>
+    <tr><td>2</td><td>Chirag Popat</td><td>Roswell</td><td>GA</td><td>Pulmonary</td><td class="num">64</td><td class="num">0</td><td class="num">64</td><td class="num">58%</td><td class="num">$10,672</td></tr>
+    <tr><td>3</td><td>Neil Williams</td><td>Irving</td><td>TX</td><td>ENT</td><td class="num">98</td><td class="num">0</td><td class="num">98</td><td class="num">62%</td><td class="num">$9,201</td></tr>
+    <tr><td>4</td><td>David Defeo</td><td>Winston Salem</td><td>NC</td><td>Critical Care</td><td class="num">75</td><td class="num">0</td><td class="num">75</td><td class="num">40%</td><td class="num">$33,676</td></tr>
+    <tr><td>5</td><td>Karl Kuhn</td><td>Nashville</td><td>TN</td><td>Pulmonary</td><td class="num">95</td><td class="num">0</td><td class="num">95</td><td class="num">35%</td><td class="num">$7,888</td></tr>
+    <tr><td>6</td><td>Ashok Gupta</td><td>Eaton Rapids</td><td>MI</td><td>Internal Med</td><td class="num">55</td><td class="num">0</td><td class="num">55</td><td class="num">47%</td><td class="num">$15,143</td></tr>
+    <tr><td>7</td><td>Jacqueline Chang</td><td>Boston</td><td>MA</td><td>Internal Med</td><td class="num">106</td><td class="num">0</td><td class="num">106</td><td class="num">66%</td><td class="num">$10,722</td></tr>
+    <tr><td>8</td><td>Mark Gosnell</td><td>Elkridge</td><td>MD</td><td>Pulmonary</td><td class="num">105</td><td class="num">0</td><td class="num">105</td><td class="num">39%</td><td class="num">$55,551</td></tr>
+    <tr><td>9</td><td>Houston Operating Company LLC</td><td>Houston</td><td>TX</td><td>IDTF</td><td class="num">78</td><td class="num">0</td><td class="num">78</td><td class="num">47%</td><td class="num">$31,129</td></tr>
+    <tr><td>10</td><td><b>Flagler Diagnostic &amp; Sleeping</b></td><td>Bunnell</td><td>FL</td><td>IDTF</td><td class="num"><b>302</b></td><td class="num">0</td><td class="num">302</td><td class="num">34%</td><td class="num"><b>$138,866</b></td></tr>
+    <tr><td>11</td><td>Amit Khanna</td><td>New London</td><td>CT</td><td>Sleep Medicine</td><td class="num">201</td><td class="num">0</td><td class="num">201</td><td class="num">34%</td><td class="num">$19,091</td></tr>
+    <tr><td>12</td><td>Stephen Grant</td><td>Clive</td><td>IA</td><td>Internal Med</td><td class="num">101</td><td class="num">0</td><td class="num">101</td><td class="num"><b>79%</b></td><td class="num">$8,799</td></tr>
+    <tr><td>13</td><td>Matthew Howard</td><td>Augusta</td><td>GA</td><td>Sleep Medicine</td><td class="num">68</td><td class="num">0</td><td class="num">68</td><td class="num">38%</td><td class="num">$6,041</td></tr>
+    <tr><td>14</td><td><b>Ivy Andersen</b></td><td>La Crosse</td><td>WI</td><td>Neurology</td><td class="num">137</td><td class="num">0</td><td class="num">137</td><td class="num"><b>85%</b></td><td class="num">$12,342</td></tr>
+    <tr><td>15</td><td>Kawish Garg</td><td>Chambersburg</td><td>PA</td><td>Psychiatry</td><td class="num">91</td><td class="num">0</td><td class="num">91</td><td class="num">45%</td><td class="num">$7,527</td></tr>
+    <tr><td>16</td><td>Safal Shetty</td><td>Douglasville</td><td>GA</td><td>Pulmonary</td><td class="num">57</td><td class="num">0</td><td class="num">57</td><td class="num">56%</td><td class="num">$8,649</td></tr>
+    <tr><td>17</td><td>Alexander Choi</td><td>Chicago</td><td>IL</td><td>Sleep Medicine</td><td class="num">82</td><td class="num">0</td><td class="num">82</td><td class="num">50%</td><td class="num">$7,158</td></tr>
+    <tr><td>18</td><td>Dainis Irbe</td><td>Eugene</td><td>OR</td><td>Neurology</td><td class="num">156</td><td class="num">0</td><td class="num">156</td><td class="num">53%</td><td class="num">$73,893</td></tr>
+    <tr><td>19</td><td>Kevin Hara</td><td>Aiea</td><td>HI</td><td>Pulmonary</td><td class="num">72</td><td class="num">0</td><td class="num">72</td><td class="num">62%</td><td class="num">$38,392</td></tr>
+    <tr><td>20</td><td>Nabih Alsheikh</td><td>Hattiesburg</td><td>MS</td><td>Nephrology</td><td class="num">137</td><td class="num">0</td><td class="num">137</td><td class="num">39%</td><td class="num">$12,506</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ─── SECTION 4: INCENTIVE STRUCTURES ─── -->
+<h2>4. Who Is Structurally Incentivized to Underscore</h2>
+
+<table>
+  <thead><tr><th>Practice Type</th><th>Mechanism</th><th>Incentive</th></tr></thead>
+  <tbody>
+    <tr><td><b>100% HSAT practices</b> (239 identified)</td><td>Mechanical: HSAT uses TRT not TST; fewer channels; misses events</td><td>Lower capital cost ($2-5K per HSAT vs $500K+ for sleep lab). Higher throughput. No overnight staffing.</td></tr>
+    <tr><td><b>Medicare-dominant practices using 1B</b></td><td>Regulatory: 4% desat-only threshold excludes arousal-based hypopneas</td><td>CMS mandates 1B for coverage. Practices cannot override it for Medicare patients.</td></tr>
+    <tr><td><b>ACO-aligned practices</b></td><td>Financial: shared-savings ACOs are penalized for downstream cost</td><td>Diagnosing severe OSA triggers expensive treatment cascade (PAP + supplies + compliance monitoring).</td></tr>
+    <tr><td><b>Medicare Advantage-contracted practices</b></td><td>Financial: MA plans restrict PAP coverage through prior auth + stricter criteria</td><td>Some MA plans require AHI ≥15 for PAP coverage. Borderline patients are often not pursued.</td></tr>
+    <tr><td><b>Practices avoiding 90-day compliance burden</b></td><td>Administrative: CMS 90-day PAP compliance rule creates documentation overhead</td><td>Diagnosing mild (AHI 5-14) → recommend oral appliance or positional therapy → avoid compliance paperwork entirely.</td></tr>
+  </tbody>
+</table>
+
+<!-- ─── SECTION 5: INFLUENCE PEOPLE ─── -->
+<h2>5. How to Find the AASM → CMS Influence People</h2>
+
+<table>
+  <thead><tr><th>Source</th><th>What It Reveals</th><th>Access</th></tr></thead>
+  <tbody>
+    <tr><td><b>RUC meeting minutes</b></td><td>Which AASM reps voted on which RVU changes for sleep CPTs</td><td><a href="https://www.ama-assn.org/about/rvs-update-committee-ruc/ruc-recommendations-minutes-voting">ama-assn.org/ruc</a></td></tr>
+    <tr><td><b>AASM AMA advocacy page</b></td><td>AASM explicitly states they lack HOD representation → weaker RUC influence</td><td><a href="https://aasm.org/clinical-resources/coding-reimbursement/payment-reform/">aasm.org/payment-reform</a></td></tr>
+    <tr><td><b>CMS MPFS proposed/final rules</b></td><td>Annual sleep-CPT reimbursement changes; AASM comment letters</td><td><a href="https://www.regulations.gov">regulations.gov</a> — search "AASM" + "MPFS"</td></tr>
+    <tr><td><b>AASM board of directors</b></td><td>Cross-reference with: Open Payments, CMS advisory committees, RUC seats</td><td><a href="https://aasm.org/about/">aasm.org/about</a></td></tr>
+    <tr><td><b>Open Payments (Sunshine Act)</b></td><td>Which sleep KOLs receive payments from ResMed, Philips, F&amp;P, Inspire</td><td><a href="https://openpaymentsdata.cms.gov/">openpaymentsdata.cms.gov</a></td></tr>
+    <tr><td><b>JCSM editorials</b></td><td>Position papers that become the basis for LCDs</td><td><a href="https://jcsm.aasm.org/doi/10.5664/jcsm.10944">jcsm.aasm.org</a></td></tr>
+    <tr><td><b>MAC LCD databases</b></td><td>Local Coverage Determinations for sleep services by region</td><td><a href="https://www.cms.gov/medicare-coverage-database/">cms.gov/medicare-coverage-database</a></td></tr>
+    <tr><td><b>Noridian/CGS/Palmetto MAC guidance</b></td><td>Sleep test scoring clarification letters per region</td><td><a href="https://med.noridianmedicare.com/documents/2230703/17635061/Sleep+Test+Scoring+and+Medicare+DCL.pdf">Noridian Sleep Scoring DCL</a></td></tr>
+  </tbody>
+</table>
+
+<!-- ─── SOURCES ─── -->
+<div class="sources">
+  <h3>Sources</h3>
+  <ol>
+    <li><a href="https://jcsm.aasm.org/doi/10.5664/jcsm.7140">The case for AASM membership in the AMA — JCSM</a></li>
+    <li><a href="https://jcsm.aasm.org/doi/10.5664/jcsm.10944">The ethics of hypopnea scoring — JCSM (2024)</a></li>
+    <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5359328/">Underestimation of Sleep Apnea With HSAT vs In-Lab — PMC (2017)</a></li>
+    <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5359331/">Potential Underestimation by At-Home Kits — PMC (2017)</a></li>
+    <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S1389945724001515">Age-related disparities: 4% vs 3% scoring criteria — ScienceDirect (2024)</a></li>
+    <li><a href="https://link.springer.com/article/10.1007/s11325-026-03598-y">Modified scoring criteria for HSAT accuracy — Sleep and Breathing (2026)</a></li>
+    <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11063699/">AASM Scoring Manual 3 — PMC (2024)</a></li>
+    <li><a href="https://aasm.org/aasm-clarifies-hypopnea-scoring-criteria/">AASM clarifies hypopnea scoring criteria</a></li>
+    <li><a href="https://aasm.org/clinical-resources/coding-reimbursement/payment-reform/">AASM AMA/RUC advocacy</a></li>
+    <li><a href="https://www.ama-assn.org/about/rvs-update-committee-ruc/ruc-recommendations-minutes-voting">AMA RUC recommendations and minutes</a></li>
+    <li><a href="https://med.noridianmedicare.com/documents/2230703/17635061/Sleep+Test+Scoring+and+Medicare+DCL.pdf">Noridian Medicare — Sleep Test Scoring DCL (2024)</a></li>
+    <li><a href="https://www.bcbsm.com/amslibs/content/dam/public/mpr/mprsearch/pdf/77347.pdf">BCBS Michigan — Diagnosis of Sleep Disorders Medical Policy</a></li>
+  </ol>
+</div>
+
+<footer>
+  Data: CMS Medicare Physician &amp; Other Practitioners — by Provider and Service (2023 public use file). 9,660,647 rows analyzed.<br/>
+  Analysis methodology: sleep diagnostic HCPCS codes (95810, 95811, 95806, G0399, 95782, 95783) filtered across all rendering specialties. HSAT ratio = (95806 + G0399) / (total sleep studies). Titration ratio = 95811 / (95810 + 95811).<br/>
+  This analysis is for informational and research purposes only. It does not constitute medical, legal, or financial advice.
+</footer>
+
+</div>
+</body>
+</html>

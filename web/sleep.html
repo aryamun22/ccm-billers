@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sleep Medicine — Medicare Outreach Ranking</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root { --bg:#0b0d10; --fg:#e6e8eb; --mut:#8a93a0; --card:#12161c; --acc:#4f9cf9; --bd:#1e2530; }
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.5 -apple-system,system-ui,Segoe UI,Inter,sans-serif;background:var(--bg);color:var(--fg)}
+  header{padding:24px 28px;border-bottom:1px solid var(--bd)}
+  h1{margin:0 0 4px;font-size:20px}
+  header p{margin:0;color:var(--mut);font-size:13px}
+  header nav{margin-top:10px;display:flex;gap:14px}
+  header nav a{color:var(--acc);text-decoration:none;font-size:13px}
+  header nav a.on{color:var(--fg);border-bottom:2px solid var(--acc);padding-bottom:2px}
+  main{padding:20px 28px;max-width:1400px;margin:auto}
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+  .kpi{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px 16px}
+  .kpi .v{font-size:22px;font-weight:600}
+  .kpi .l{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:20px}
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px 16px}
+  .card h2{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+  canvas{max-height:280px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+  input,select,button{background:#0f141b;color:var(--fg);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;font:inherit}
+  input[type=text]{min-width:260px}
+  button{cursor:pointer}
+  button.active{background:#1b2430;border-color:var(--acc);color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+  th{color:var(--mut);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.05em;cursor:pointer;user-select:none}
+  th.num,td.num{text-align:right}
+  tbody tr:hover{background:#161c25}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#1b2430;color:var(--acc);font-size:11px;margin-right:4px}
+  .pill.psg{color:#4f9cf9} .pill.hsat{color:#22c55e} .pill.ccm{color:#f59e0b} .pill.rpm{color:#a855f7}
+  .muted{color:var(--mut)}
+  footer{padding:18px 28px;color:var(--mut);font-size:12px;border-top:1px solid var(--bd);margin-top:24px}
+  .bar{display:inline-block;height:6px;background:var(--acc);border-radius:3px;vertical-align:middle;margin-right:4px}
+  details{margin-top:4px}
+  details summary{color:var(--mut);font-size:12px;cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+  <h1>Sleep Medicine — Medicare Outreach Ranking</h1>
+  <p id="src">Loading…</p>
+  <nav>
+    <a href="index.html">CCM Billers</a>
+    <a href="sleep.html" class="on">Sleep Medicine</a>
+    <a href="outreach.html">Outreach</a>
+  </nav>
+</header>
+<main>
+  <section class="kpis">
+    <div class="kpi"><div class="l">Sleep NPIs</div><div class="v" id="k-prov">—</div></div>
+    <div class="kpi"><div class="l">ZIP Practices</div><div class="v" id="k-prac">—</div></div>
+    <div class="kpi"><div class="l">Services</div><div class="v" id="k-svc">—</div></div>
+    <div class="kpi"><div class="l">Medicare Paid</div><div class="v" id="k-pay">—</div></div>
+    <div class="kpi"><div class="l">Avg / NPI</div><div class="v" id="k-avg">—</div></div>
+  </section>
+
+  <section class="grid">
+    <div class="card"><h2>Top states — Medicare $</h2><canvas id="chState"></canvas></div>
+    <div class="card"><h2>Revenue mix by category</h2><canvas id="chCat"></canvas></div>
+  </section>
+
+  <section class="card">
+    <h2>Target list</h2>
+    <div class="toolbar">
+      <button id="tab-prac" class="active">Practices (by ZIP)</button>
+      <button id="tab-prov">Individual NPIs</button>
+      <span style="flex:1"></span>
+      <input id="q" type="text" placeholder="Search name, city, ZIP, NPI…" />
+      <select id="state"><option value="">All states</option></select>
+      <select id="limit"><option value="50">Top 50</option><option value="100" selected>Top 100</option><option value="250">Top 250</option><option value="0">All</option></select>
+      <button id="csv">Export CSV</button>
+    </div>
+    <div class="muted" id="count" style="margin-bottom:6px"></div>
+    <div style="max-height:65vh;overflow:auto">
+      <table id="tbl"><thead></thead><tbody></tbody></table>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:16px">
+    <h2>CPT / HCPCS breakdown (Sleep Medicine only)</h2>
+    <table id="codeTbl"><thead><tr>
+      <th>Code</th><th>Category</th><th>Description</th><th class="num">Services</th>
+    </tr></thead><tbody></tbody></table>
+  </section>
+</main>
+<footer id="ft">—</footer>
+
+<script>
+const fmt$ = n => "$" + (n||0).toLocaleString(undefined,{maximumFractionDigits:0});
+const fmtN = n => (n||0).toLocaleString();
+let D = null, VIEW = "prac", SORT = "total_payment", DIR = -1;
+
+async function load() {
+  D = await (await fetch("sleep.json")).json();
+  document.getElementById("src").textContent = D.source;
+  document.getElementById("ft").textContent = `${fmtN(D.totals.rows_scanned)} rows scanned • ${fmtN(D.totals.kept_rows)} sleep-specialty rows on target codes`;
+  document.getElementById("k-prov").textContent = fmtN(D.totals.providers);
+  document.getElementById("k-prac").textContent = fmtN(D.totals.practices);
+  document.getElementById("k-svc").textContent = fmtN(D.totals.total_services);
+  document.getElementById("k-pay").textContent = fmt$(D.totals.total_payment);
+  document.getElementById("k-avg").textContent = fmt$(D.totals.total_payment / Math.max(1, D.totals.providers));
+
+  const stSel = document.getElementById("state");
+  [...new Set(D.providers.map(p=>p.state).filter(Boolean))].sort().forEach(s =>
+    stSel.insertAdjacentHTML("beforeend", `<option>${s}</option>`));
+
+  // Charts
+  const topStates = D.by_state.slice(0, 12);
+  new Chart(document.getElementById("chState"), {
+    type: "bar",
+    data: { labels: topStates.map(s=>s.state),
+      datasets: [{ label: "Medicare $", data: topStates.map(s=>s.payment), backgroundColor: "#4f9cf9" }] },
+    options: { indexAxis: "y", plugins: { legend: { display: false } },
+      scales: { x: { ticks: { color:"#8a93a0", callback: v=>fmt$(v) }, grid: { color:"#1e2530" } },
+                y: { ticks: { color:"#e6e8eb" }, grid: { display:false } } } }
+  });
+  const cats = ["PSG","HSAT","CCM","RPM"];
+  new Chart(document.getElementById("chCat"), {
+    type: "doughnut",
+    data: { labels: cats, datasets: [{
+      data: cats.map(c => D.by_category[c] || 0),
+      backgroundColor: ["#4f9cf9","#22c55e","#f59e0b","#a855f7"] }] },
+    options: { plugins: { legend: { position:"bottom", labels: { color:"#e6e8eb" } } } }
+  });
+
+  // Code table
+  const ctb = document.querySelector("#codeTbl tbody");
+  ctb.innerHTML = D.by_code.map(c =>
+    `<tr><td><b>${c.code}</b></td><td><span class="pill ${c.cat.toLowerCase()}">${c.cat}</span></td><td>${c.label}</td><td class="num">${fmtN(c.services)}</td></tr>`
+  ).join("");
+
+  // Tabs
+  document.getElementById("tab-prac").onclick = () => setView("prac");
+  document.getElementById("tab-prov").onclick = () => setView("prov");
+  ["q","state","limit"].forEach(id => document.getElementById(id).addEventListener("input", render));
+  document.getElementById("csv").onclick = exportCsv;
+  render();
+}
+
+function setView(v) {
+  VIEW = v;
+  document.getElementById("tab-prac").classList.toggle("active", v==="prac");
+  document.getElementById("tab-prov").classList.toggle("active", v==="prov");
+  SORT = "total_payment"; DIR = -1;
+  render();
+}
+
+function filtered() {
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const st = document.getElementById("state").value;
+  const base = VIEW === "prac" ? D.practices : D.providers;
+  return base.filter(r => {
+    if (st && r.state !== st) return false;
+    if (!q) return true;
+    const hay = VIEW === "prac"
+      ? `${r.city} ${r.state} ${r.zip} ${(r.names||[]).join(" ")}`
+      : `${r.name} ${r.org} ${r.city} ${r.state} ${r.zip} ${r.npi}`;
+    return hay.toLowerCase().includes(q);
+  });
+}
+
+function render() {
+  const rows = filtered();
+  const lim = parseInt(document.getElementById("limit").value, 10);
+  rows.sort((a,b) => {
+    const x = a[SORT], y = b[SORT];
+    if (typeof x === "number") return (x - y) * DIR;
+    return String(x||"").localeCompare(String(y||"")) * DIR;
+  });
+  const view = lim ? rows.slice(0, lim) : rows;
+  document.getElementById("count").textContent =
+    `${fmtN(rows.length)} ${VIEW==="prac"?"practice clusters":"NPIs"} match — showing ${fmtN(view.length)}`;
+
+  const thead = document.querySelector("#tbl thead");
+  const tbody = document.querySelector("#tbl tbody");
+  if (VIEW === "prac") {
+    thead.innerHTML = `<tr>
+      <th>#</th><th data-k="city">Location</th><th data-k="zip">ZIP</th>
+      <th class="num" data-k="providers">NPIs</th>
+      <th class="num" data-k="services">Services</th>
+      <th class="num" data-k="benes">Benes</th>
+      <th class="num" data-k="total_payment">Medicare $</th>
+      <th>Mix</th><th>Clinicians (sample)</th>
+    </tr>`;
+    const maxPay = Math.max(...view.map(r=>r.total_payment), 1);
+    tbody.innerHTML = view.map((r,i) => {
+      const mix = ["PSG","HSAT","CCM","RPM"].map(c =>
+        r.cats[c] ? `<span class="pill ${c.toLowerCase()}">${c} ${fmtN(r.cats[c])}</span>` : ""
+      ).join("");
+      const bar = `<span class="bar" style="width:${Math.round(80*r.total_payment/maxPay)}px"></span>`;
+      return `<tr>
+        <td class="muted">${i+1}</td>
+        <td>${esc(r.city)}, ${esc(r.state)}</td>
+        <td class="muted">${esc(r.zip)}</td>
+        <td class="num">${r.providers}</td>
+        <td class="num">${fmtN(r.services)}</td>
+        <td class="num">${fmtN(r.benes)}</td>
+        <td class="num">${bar}${fmt$(r.total_payment)}</td>
+        <td>${mix}</td>
+        <td class="muted">${(r.names||[]).map(esc).join(", ")}</td>
+      </tr>`;
+    }).join("");
+  } else {
+    thead.innerHTML = `<tr>
+      <th>#</th><th data-k="name">Clinician</th>
+      <th data-k="city">Location</th><th data-k="zip">ZIP</th>
+      <th class="num" data-k="services">Services</th>
+      <th class="num" data-k="benes">Benes</th>
+      <th class="num" data-k="total_payment">Medicare $</th>
+      <th>Mix</th><th>NPI</th>
+    </tr>`;
+    tbody.innerHTML = view.map((p,i) => {
+      const mix = ["PSG","HSAT","CCM","RPM"].map(c =>
+        p.cats[c] ? `<span class="pill ${c.toLowerCase()}">${c} ${fmtN(p.cats[c])}</span>` : ""
+      ).join("");
+      return `<tr>
+        <td class="muted">${i+1}</td>
+        <td>${esc(p.name || p.org)}</td>
+        <td>${esc(p.city)}, ${esc(p.state)}</td>
+        <td class="muted">${esc(p.zip)}</td>
+        <td class="num">${fmtN(p.services)}</td>
+        <td class="num">${fmtN(p.benes)}</td>
+        <td class="num">${fmt$(p.total_payment)}</td>
+        <td>${mix}</td>
+        <td class="muted">${esc(p.npi)}</td>
+      </tr>`;
+    }).join("");
+  }
+  document.querySelectorAll("#tbl th[data-k]").forEach(th => th.onclick = () => {
+    const k = th.dataset.k;
+    if (SORT === k) DIR = -DIR; else { SORT = k; DIR = -1; }
+    render();
+  });
+}
+
+function exportCsv() {
+  const rows = filtered();
+  const lim = parseInt(document.getElementById("limit").value, 10);
+  const view = lim ? rows.slice(0, lim) : rows;
+  const header = VIEW === "prac"
+    ? ["rank","city","state","zip","npis","services","benes","medicare_$","psg","hsat","ccm","rpm","clinicians"]
+    : ["rank","name","org","city","state","zip","npi","specialty","services","benes","medicare_$","psg","hsat","ccm","rpm"];
+  const lines = [header.join(",")];
+  view.forEach((r,i) => {
+    const cells = VIEW === "prac"
+      ? [i+1, r.city, r.state, r.zip, r.providers, r.services, r.benes, r.total_payment,
+         r.cats.PSG, r.cats.HSAT, r.cats.CCM, r.cats.RPM, (r.names||[]).join("; ")]
+      : [i+1, r.name, r.org, r.city, r.state, r.zip, r.npi, "Sleep Medicine",
+         r.services, r.benes, r.total_payment, r.cats.PSG, r.cats.HSAT, r.cats.CCM, r.cats.RPM];
+    lines.push(cells.map(v => `"${String(v??"").replace(/"/g,'""')}"`).join(","));
+  });
+  const blob = new Blob([lines.join("\n")], { type:"text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = VIEW === "prac" ? "sleep_practices.csv" : "sleep_npis.csv";
+  a.click();
+}
+
+function esc(s) { return String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+
+load().catch(e => { document.getElementById("src").textContent = "Failed to load sleep.json — " + e; });
+</script>
+</body>
+</html>

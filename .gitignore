@@ -1,0 +1,19 @@
+# Don't commit the raw CMS data files (multi-GB)
+*.csv.gz
+/data/
+
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Strategy docs (private — don't open source)
+foresight_analysis.md
+
+# Local outreach CSVs with phone numbers / personalization (private)
+web/endo_nynj_top5.csv
+web/outreach_tier1.csv
+web/outreach_tier2.csv
+web/outreach_tracker.csv

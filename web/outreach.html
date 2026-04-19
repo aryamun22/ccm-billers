@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sleep Medicine — Outreach List</title>
+<style>
+  :root { --bg:#0b0d10; --fg:#e6e8eb; --mut:#8a93a0; --card:#12161c; --acc:#4f9cf9; --bd:#1e2530; --ok:#22c55e; --warn:#f59e0b; }
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.5 -apple-system,system-ui,Segoe UI,Inter,sans-serif;background:var(--bg);color:var(--fg)}
+  header{padding:24px 28px;border-bottom:1px solid var(--bd)}
+  h1{margin:0 0 4px;font-size:20px}
+  header p{margin:0;color:var(--mut);font-size:13px}
+  header nav{margin-top:10px;display:flex;gap:14px}
+  header nav a{color:var(--acc);text-decoration:none;font-size:13px}
+  header nav a.on{color:var(--fg);border-bottom:2px solid var(--acc);padding-bottom:2px}
+  main{padding:20px 28px;max-width:1500px;margin:auto}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+  .kpi{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px 16px}
+  .kpi .v{font-size:22px;font-weight:600}
+  .kpi .l{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+  input,select,button{background:#0f141b;color:var(--fg);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;font:inherit}
+  input[type=text]{min-width:280px}
+  button{cursor:pointer}
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px 16px}
+  .card h2{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+  .list{display:flex;flex-direction:column;gap:10px}
+  .row{background:#0f141b;border:1px solid var(--bd);border-radius:8px;padding:12px 14px}
+  .row h3{margin:0 0 4px;font-size:15px}
+  .meta{color:var(--mut);font-size:12px;margin-bottom:6px}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#1b2430;font-size:11px;margin-right:4px}
+  .pill.ok{color:var(--ok)} .pill.warn{color:var(--warn)} .pill.acc{color:var(--acc)}
+  .bar{display:inline-block;height:6px;background:var(--acc);border-radius:3px;vertical-align:middle;margin-right:4px}
+  .centers{margin-top:6px}
+  .center{padding:6px 0;border-top:1px dashed var(--bd);font-size:13px}
+  .center a{color:var(--acc);text-decoration:none}
+  .tel{font-family:ui-monospace,Menlo,monospace;color:var(--ok)}
+  .muted{color:var(--mut)}
+  .num{font-variant-numeric:tabular-nums}
+  footer{padding:18px 28px;color:var(--mut);font-size:12px;border-top:1px solid var(--bd);margin-top:24px}
+  .big{font-size:17px;font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <h1>Sleep Medicine — Outreach List</h1>
+  <p id="src">Loading…</p>
+  <nav>
+    <a href="index.html">CCM Billers</a>
+    <a href="sleep.html">Sleep Medicine</a>
+    <a href="outreach.html" class="on">Outreach</a>
+  </nav>
+</header>
+<main>
+  <section class="kpis">
+    <div class="kpi"><div class="l">Medicare ZIP practices</div><div class="v" id="k-zip">—</div></div>
+    <div class="kpi"><div class="l">AASM centers total</div><div class="v" id="k-aasm">—</div></div>
+    <div class="kpi"><div class="l">ZIPs w/ ≥1 AASM match</div><div class="v" id="k-match">—</div></div>
+    <div class="kpi"><div class="l">Match rate</div><div class="v" id="k-rate">—</div></div>
+  </section>
+
+  <section class="card">
+    <h2>Target practices</h2>
+    <div class="toolbar">
+      <input id="q" type="text" placeholder="Search city, ZIP, name, phone…" />
+      <select id="state"><option value="">All states</option></select>
+      <select id="aasmFilter">
+        <option value="">AASM: any</option>
+        <option value="1">With AASM match</option>
+        <option value="0">Medicare-only (no AASM)</option>
+      </select>
+      <select id="limit">
+        <option value="50">Top 50</option>
+        <option value="100" selected>Top 100</option>
+        <option value="250">Top 250</option>
+        <option value="0">All</option>
+      </select>
+      <span style="flex:1"></span>
+      <span class="muted" id="count"></span>
+      <button id="csv">Export CSV</button>
+    </div>
+    <div id="list" class="list"></div>
+  </section>
+</main>
+<footer id="ft">—</footer>
+
+<script>
+const fmt$ = n => "$" + (n||0).toLocaleString(undefined,{maximumFractionDigits:0});
+const fmtN = n => (n||0).toLocaleString();
+let D = null;
+
+async function load() {
+  D = await (await fetch("outreach.json")).json();
+  document.getElementById("src").textContent = D.source;
+  document.getElementById("ft").textContent = "Updated " + new Date().toLocaleDateString();
+  document.getElementById("k-zip").textContent = fmtN(D.stats.medicare_zip_practices);
+  document.getElementById("k-aasm").textContent = fmtN(D.stats.aasm_centers_total);
+  document.getElementById("k-match").textContent = fmtN(D.stats.matched_zips);
+  document.getElementById("k-rate").textContent = D.stats.match_rate + "%";
+
+  const stSel = document.getElementById("state");
+  [...new Set(D.unified.map(r=>r.state).filter(Boolean))].sort().forEach(s =>
+    stSel.insertAdjacentHTML("beforeend", `<option>${s}</option>`));
+
+  ["q","state","aasmFilter","limit"].forEach(id => document.getElementById(id).addEventListener("input", render));
+  document.getElementById("csv").onclick = exportCsv;
+  render();
+}
+
+function filtered() {
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const st = document.getElementById("state").value;
+  const af = document.getElementById("aasmFilter").value;
+  return D.unified.filter(r => {
+    if (st && r.state !== st) return false;
+    if (af === "1" && !r.aasm_matched) return false;
+    if (af === "0" && r.aasm_matched) return false;
+    if (!q) return true;
+    const hay = [r.city, r.state, r.zip, ...(r.clinicians||[]),
+      ...(r.aasm_centers||[]).flatMap(c => [c.name, c.phone, c.website])].join(" ").toLowerCase();
+    return hay.includes(q);
+  });
+}
+
+function render() {
+  const rows = filtered();
+  const lim = parseInt(document.getElementById("limit").value, 10);
+  const view = lim ? rows.slice(0, lim) : rows;
+  document.getElementById("count").textContent = `${fmtN(rows.length)} matches — showing ${fmtN(view.length)}`;
+
+  const maxPay = Math.max(...view.map(r=>r.medicare_payment), 1);
+  const list = document.getElementById("list");
+  list.innerHTML = view.map((r,i) => {
+    const mix = ["PSG","HSAT","CCM","RPM"].map(c =>
+      r.mix[c] ? `<span class="pill acc">${c} ${fmtN(r.mix[c])}</span>` : ""
+    ).join("");
+    const bar = `<span class="bar" style="width:${Math.round(120*r.medicare_payment/maxPay)}px"></span>`;
+    const matchTag = r.aasm_matched
+      ? `<span class="pill ok">AASM ×${r.aasm_centers.length}</span>`
+      : `<span class="pill warn">no AASM match</span>`;
+    const centers = (r.aasm_centers||[]).map(c => `
+      <div class="center">
+        <b>${esc(c.name)}</b> ${c.is_member ? '<span class="pill ok">AASM member</span>' : ""}<br/>
+        <span class="muted">${esc(c.street)}</span>
+        ${c.phone ? `<span class="tel"> • ${esc(c.phone)}</span>` : ""}
+        ${c.website ? ` • <a href="${esc(c.website)}" target="_blank" rel="noopener">website</a>` : ""}
+        ${c.email ? ` • <a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ""}
+      </div>
+    `).join("");
+    const clinicians = (r.clinicians||[]).filter(Boolean).slice(0,6).map(esc).join(", ");
+    return `
+      <div class="row">
+        <h3>#${i+1} ${esc(r.city)}, ${esc(r.state)} ${esc(r.zip)} ${matchTag}</h3>
+        <div class="meta">
+          <span class="big num">${bar}${fmt$(r.medicare_payment)}</span>
+          <span> • ${r.medicare_providers} NPIs • ${fmtN(r.medicare_services)} services • ${fmtN(r.medicare_benes)} benes</span>
+        </div>
+        <div>${mix}</div>
+        ${clinicians ? `<div class="meta" style="margin-top:4px">Medicare clinicians: ${clinicians}</div>` : ""}
+        ${centers ? `<div class="centers">${centers}</div>` : ""}
+      </div>`;
+  }).join("");
+}
+
+function exportCsv() {
+  const rows = filtered();
+  const lim = parseInt(document.getElementById("limit").value, 10);
+  const view = lim ? rows.slice(0, lim) : rows;
+  const header = ["rank","city","state","zip","medicare_$","npis","services","benes",
+    "psg","hsat","ccm","rpm","aasm_center","street","phone","website","aasm_member"];
+  const lines = [header.join(",")];
+  view.forEach((r,i) => {
+    if (r.aasm_centers.length === 0) {
+      lines.push(csvRow([i+1, r.city, r.state, r.zip, r.medicare_payment, r.medicare_providers,
+        r.medicare_services, r.medicare_benes, r.mix.PSG, r.mix.HSAT, r.mix.CCM, r.mix.RPM,
+        "", "", "", "", ""]));
+    } else {
+      r.aasm_centers.forEach(c => {
+        lines.push(csvRow([i+1, r.city, r.state, r.zip, r.medicare_payment, r.medicare_providers,
+          r.medicare_services, r.medicare_benes, r.mix.PSG, r.mix.HSAT, r.mix.CCM, r.mix.RPM,
+          c.name, c.street, c.phone, c.website, c.is_member ? "yes" : "no"]));
+      });
+    }
+  });
+  const blob = new Blob([lines.join("\n")], { type:"text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "sleep_outreach.csv";
+  a.click();
+}
+function csvRow(cells) { return cells.map(v => `"${String(v??"").replace(/"/g,'""')}"`).join(","); }
+function esc(s) { return String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+
+load().catch(e => { document.getElementById("src").textContent = "Failed to load outreach.json — " + e; });
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CCM Medicare Billers — Ranked</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root { --bg:#0b0d10; --fg:#e6e8eb; --mut:#8a93a0; --card:#12161c; --acc:#4f9cf9; --bd:#1e2530; }
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.5 -apple-system,system-ui,Segoe UI,Inter,sans-serif;background:var(--bg);color:var(--fg)}
+  header{padding:24px 28px;border-bottom:1px solid var(--bd)}
+  h1{margin:0 0 4px;font-size:20px}
+  header p{margin:0;color:var(--mut);font-size:13px}
+  main{padding:20px 28px;max-width:1400px;margin:auto}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+  .kpi{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px 16px}
+  .kpi .v{font-size:22px;font-weight:600}
+  .kpi .l{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px 16px}
+  .card h2{margin:0 0 10px;font-size:14px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+  canvas{max-height:280px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+  input,select{background:#0f141b;color:var(--fg);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;font:inherit}
+  input[type=text]{min-width:260px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+  th{color:var(--mut);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.05em;cursor:pointer;user-select:none}
+  th.num,td.num{text-align:right}
+  tbody tr:hover{background:#161c25}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#1b2430;color:var(--acc);font-size:11px}
+  .muted{color:var(--mut)}
+  footer{padding:18px 28px;color:var(--mut);font-size:12px;border-top:1px solid var(--bd);margin-top:24px}
+  .empty{padding:40px;text-align:center;color:var(--mut)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Medicare CCM Billers — Ranked</h1>
+  <p id="src">Loading data…</p>
+  <nav style="margin-top:10px;display:flex;gap:14px">
+    <a href="index.html" style="color:#e6e8eb;text-decoration:none;border-bottom:2px solid #4f9cf9;padding-bottom:2px;font-size:13px">CCM Billers</a>
+    <a href="sleep.html" style="color:#4f9cf9;text-decoration:none;font-size:13px">Sleep Medicine</a>
+    <a href="outreach.html" style="color:#4f9cf9;text-decoration:none;font-size:13px">Outreach</a>
+    <a href="underscoring.html" style="color:#4f9cf9;text-decoration:none;font-size:13px">Underscoring</a>
+  </nav>
+</header>
+<main>
+  <section class="kpis">
+    <div class="kpi"><div class="l">Providers</div><div class="v" id="k-prov">—</div></div>
+    <div class="kpi"><div class="l">Total Services</div><div class="v" id="k-svc">—</div></div>
+    <div class="kpi"><div class="l">Total Medicare Paid</div><div class="v" id="k-pay">—</div></div>
+    <div class="kpi"><div class="l">Avg Paid / Provider</div><div class="v" id="k-avg">—</div></div>
+  </section>
+
+  <section class="grid">
+    <div class="card"><h2>Top specialties by CCM payments</h2><canvas id="chSpec"></canvas></div>
+    <div class="card"><h2>CCM code mix (services)</h2><canvas id="chCode"></canvas></div>
+  </section>
+
+  <section class="card">
+    <h2>Provider ranking</h2>
+    <div class="toolbar">
+      <input id="q" type="text" placeholder="Search name, org, NPI, city…" />
+      <select id="state"><option value="">All states</option></select>
+      <select id="spec"><option value="">All specialties</option></select>
+      <select id="target"><option value="">All providers</option><option value="1">Target specialties only</option></select>
+      <span class="muted" id="count"></span>
+    </div>
+    <div style="max-height:60vh;overflow:auto">
+      <table id="tbl">
+        <thead><tr>
+          <th data-k="rank">#</th>
+          <th data-k="name">Provider</th>
+          <th data-k="org">Organization</th>
+          <th data-k="specialty">Specialty</th>
+          <th data-k="city">Location</th>
+          <th class="num" data-k="services">Services</th>
+          <th class="num" data-k="benes">Benes</th>
+          <th class="num" data-k="total_payment">Medicare $</th>
+          <th data-k="npi">NPI</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<footer id="ft">—</footer>
+
+<script>
+const fmt$ = n => "$" + (n||0).toLocaleString(undefined,{maximumFractionDigits:0});
+const fmtN = n => (n||0).toLocaleString();
+
+let DATA = null, FILTERED = [], sortKey = "total_payment", sortDir = -1;
+
+async function load() {
+  const r = await fetch("data.json");
+  DATA = await r.json();
+  document.getElementById("src").textContent = DATA.source;
+  document.getElementById("ft").textContent =
+    `${fmtN(DATA.totals.rows_scanned)} rows scanned • ${fmtN(DATA.totals.ccm_rows)} CCM line items`;
+
+  document.getElementById("k-prov").textContent = fmtN(DATA.totals.providers);
+  document.getElementById("k-svc").textContent = fmtN(DATA.totals.total_services);
+  document.getElementById("k-pay").textContent = fmt$(DATA.totals.total_payment);
+  document.getElementById("k-avg").textContent = fmt$(DATA.totals.total_payment / Math.max(1, DATA.totals.providers));
+
+  // Populate selects
+  const states = [...new Set(DATA.providers.map(p=>p.state).filter(Boolean))].sort();
+  const specs = [...new Set(DATA.providers.map(p=>p.specialty).filter(Boolean))].sort();
+  const stateSel = document.getElementById("state");
+  states.forEach(s => stateSel.insertAdjacentHTML("beforeend", `<option>${s}</option>`));
+  const specSel = document.getElementById("spec");
+  specs.forEach(s => specSel.insertAdjacentHTML("beforeend", `<option>${s}</option>`));
+
+  drawCharts();
+  apply();
+
+  ["q","state","spec","target"].forEach(id => document.getElementById(id).addEventListener("input", apply));
+  document.querySelectorAll("th[data-k]").forEach(th => th.addEventListener("click", () => {
+    const k = th.dataset.k;
+    if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = -1; }
+    render();
+  }));
+}
+
+function drawCharts() {
+  const spec = DATA.by_specialty.slice(0, 12);
+  new Chart(document.getElementById("chSpec"), {
+    type: "bar",
+    data: {
+      labels: spec.map(s => s.name),
+      datasets: [{ label: "Medicare $", data: spec.map(s => s.payment), backgroundColor: "#4f9cf9" }]
+    },
+    options: {
+      indexAxis: "y",
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: "#8a93a0", callback: v => fmt$(v) }, grid: { color: "#1e2530" } },
+        y: { ticks: { color: "#e6e8eb" }, grid: { display: false } }
+      }
+    }
+  });
+  const codes = DATA.by_code;
+  new Chart(document.getElementById("chCode"), {
+    type: "doughnut",
+    data: {
+      labels: codes.map(c => c.name + " — " + (DATA.ccm_codes[c.name] || "")),
+      datasets: [{ data: codes.map(c => c.services),
+        backgroundColor: ["#4f9cf9","#7c5cff","#22c55e","#f59e0b","#ef4444","#06b6d4","#a855f7"] }]
+    },
+    options: { plugins: { legend: { position: "bottom", labels: { color: "#e6e8eb", font: { size: 11 } } } } }
+  });
+}
+
+function apply() {
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const st = document.getElementById("state").value;
+  const sp = document.getElementById("spec").value;
+  const targetOnly = document.getElementById("target").value === "1";
+  const targets = new Set(DATA.target_specialties.map(s => s.toLowerCase()));
+  FILTERED = DATA.providers.filter(p => {
+    if (st && p.state !== st) return false;
+    if (sp && p.specialty !== sp) return false;
+    if (targetOnly && !targets.has((p.specialty||"").toLowerCase())) return false;
+    if (q) {
+      const hay = (p.name + " " + p.org + " " + p.npi + " " + p.city + " " + p.specialty).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  render();
+}
+
+function render() {
+  const rows = [...FILTERED].sort((a,b) => {
+    const x = a[sortKey], y = b[sortKey];
+    if (typeof x === "number") return (x - y) * sortDir;
+    return String(x||"").localeCompare(String(y||"")) * sortDir;
+  });
+  document.getElementById("count").textContent = `${fmtN(rows.length)} providers`;
+  const tb = document.querySelector("#tbl tbody");
+  const slice = rows.slice(0, 500);
+  tb.innerHTML = slice.map((p,i) => `
+    <tr>
+      <td class="muted">${i+1}</td>
+      <td>${escapeHtml(p.name) || "<span class='muted'>—</span>"}</td>
+      <td>${escapeHtml(p.org) || "<span class='muted'>—</span>"}</td>
+      <td><span class="pill">${escapeHtml(p.specialty||"")}</span></td>
+      <td>${escapeHtml(p.city)}, ${escapeHtml(p.state)}</td>
+      <td class="num">${fmtN(p.services)}</td>
+      <td class="num">${fmtN(p.benes)}</td>
+      <td class="num">${fmt$(p.total_payment)}</td>
+      <td class="muted">${escapeHtml(p.npi)}</td>
+    </tr>`).join("");
+  if (rows.length > 500) {
+    tb.insertAdjacentHTML("beforeend",
+      `<tr><td colspan="9" class="empty">Showing top 500 of ${fmtN(rows.length)} — narrow the filters to see more.</td></tr>`);
+  }
+}
+
+function escapeHtml(s) {
+  return String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+load().catch(e => {
+  document.getElementById("src").textContent = "Failed to load data.json — run scripts/filter_ccm.py first. " + e;
+});
+</script>
+</body>
+</html>
