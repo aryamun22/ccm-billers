@@ -1,53 +1,92 @@
 # CMS Data Monitor Report
 
-**Date/Time:** 2026-04-19 (automated daily check)
-**Status:** FETCH ERRORS — outbound network access blocked (HTTP 403 on all sources)
+**Generated:** 2026-04-20  
+**Checked by:** CMS Data Monitor (automated)  
+**Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
 ---
 
-## Task 1: CMS Medicare Physician & Other Practitioners — by Provider and Service
+## Task 1 — CMS Provider-and-Service 2024 Data Release
 
-- **Source:** https://data.cms.gov/data.json
-- **Result:** FETCH ERROR (HTTP 403)
-- **Current baseline:** 2023 data (released 2023-12-31)
-- **Action:** Manual check required — visit https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service to verify if 2024 data has been released.
+**Status: POSSIBLE NEW DATA — Needs manual confirmation**
 
----
+The `catalog.data.gov` entry for *Medicare Physician & Other Practitioners - by Provider and Service* shows a `last_modified` date of **2025-10-28**, suggesting a release after our 2023-12-31 baseline.
 
-## Task 2: AASM Scoring Manual / Practice Parameter Updates (2026)
+- Dataset page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service
+- Data.gov catalog: https://catalog.data.gov/dataset/medicare-physician-other-practitioners-by-provider-and-service-b156e
 
-- **Source:** https://aasm.org/clinical-resources/practice-standards/
-- **Result:** FETCH ERROR (HTTP 403)
-- **Action:** Manual check required — visit AASM clinical resources page to review for new scoring manual versions or practice parameter updates published in 2026.
+**Direct download URL and file size could not be confirmed via automated fetch** (data.cms.gov returns 403 to automated requests). The CY2024 service-year file (covering 2024 claims) would follow the RY26 naming convention.
+
+> **Action item:** Manually visit the dataset page above or run `python filter_ccm.py --check-latest` to confirm whether a distribution newer than 2023-12-31 exists. If yes, download and run `filter_ccm.py` to update local data.
 
 ---
 
-## Task 3: CMS Federal Register — Sleep Apnea Rules (2026-01-01 onward)
+## Task 2 — AASM Scoring Manual / Guideline Updates
 
-- **Source:** https://www.federalregister.gov (CMS agency, term: "sleep apnea", date ≥ 2026-01-01)
-- **Result:** FETCH ERROR (HTTP 403)
-- **Action:** Manual check required — search Federal Register at https://www.federalregister.gov/documents/search for CMS documents mentioning "sleep apnea" published in 2026.
+**Status: NEW GUIDELINES FOUND (2025, published Feb 2026)**
+
+The AASM Scoring Manual remains at **Version 3** (no new version of the scoring manual itself).
+
+Two new **clinical practice guidelines** were posted to aasm.org in **February 2026**:
+
+| Document | Published | URL |
+|---|---|---|
+| Treatment of Central Sleep Apnea in Adults (2025 guideline) | Feb 2026 | https://aasm.org/wp-content/uploads/2026/02/central-sleep-apnea-guideline-AASM-2025.pdf |
+| Evaluation & Management of Obstructive Sleep Apnea in Adults — Inpatient (2025 guideline) | Feb 2026 | https://aasm.org/wp-content/uploads/2026/02/inpatient-sleep-apnea-guideline-AASM-2025.pdf |
+
+> **Action item:** Review both guidelines for any diagnostic criteria or coding implications affecting billed services (95810, 95811, 95806, G0399). Update clinical documentation templates if criteria have changed.
 
 ---
 
-## Task 4: MPFS Updates — Sleep & CCM CPT Codes
+## Task 3 — Federal Register: Sleep Apnea Rules (CMS, 2026)
 
-- **CPT codes monitored:** 95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457
-- **Source:** Federal Register (CMS, "physician fee schedule", date ≥ 2026-01-01)
-- **Result:** FETCH ERROR (HTTP 403)
-- **Action:** Manual check required — search for 2027 MPFS proposed rule or 2026 MPFS corrections at https://www.federalregister.gov.
+**Status: NO NEW DEDICATED SLEEP APNEA RULES IN 2026**
+
+No CMS proposed or final rules specifically targeting sleep apnea were published in the Federal Register on or after 2026-01-01.
+
+Sleep apnea coding (CPT **95800** — unattended home sleep test) was addressed in the **CY 2026 MPFS Final Rule** (published Nov 2025, effective Jan 1 2026) and a subsequent correction notice — see Task 4 below.
+
+---
+
+## Task 4 — MPFS Updates: Sleep & CCM Codes
+
+**Status: ACTIONABLE CHANGES EFFECTIVE 2026-01-01**
+
+### CY 2026 MPFS Final Rule (CMS-1832-F)
+- **Federal Register:** https://www.federalregister.gov/documents/2025/11/05/2025-19787/medicare-and-medicaid-programs-cy-2026-payment-policies-under-the-physician-fee-schedule-and-other
+- **CMS Fact Sheet:** https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2026-medicare-physician-fee-schedule-final-rule-cms-1832-f
+
+#### Sleep codes
+| Code | Change |
+|---|---|
+| **95800** | PE inputs revised: reusable device equipment codes removed; new supply code added for **WatchPAT ONE disposable** device. Direct PE costs updated accordingly. |
+
+#### RPM / CCM codes
+| Code | Change |
+|---|---|
+| **99457 / 99458** | Time threshold for initial RPM month lowered from **20 minutes** to **11–20 minutes**. This may increase qualifying encounters. |
+| CCM (99490, 99439, 99487, 99491) | No direct payment changes noted; however, new **Advanced Primary Care Management (APCM)** add-on G-codes were finalized for behavioral health integration — review whether your CCM workflow interacts with APCM billing. |
+| **99453 / 99454** (RPM setup/device supply) | No specific changes found in search results; verify against full rule text. |
+
+### CY 2026 MPFS Correction
+- **Federal Register:** https://www.federalregister.gov/documents/2025/08/14/2025-15492/medicare-and-medicaid-programs-cy-2026-payment-policies-under-the-physician-fee-schedule-and-other
+- Corrects typographical/technical errors from the July 2025 proposed rule; includes CPT 95800 WatchPAT ONE nominator language.
+
+### CY 2027 MPFS Proposed Rule
+- **Not yet released.** Expected ~July 2026 per CMS annual schedule. No CY 2027 proposed rule documents found as of this report date.
+
+> **Action items:**
+> 1. Confirm 95800 PE input change does not affect billing or reimbursement amounts for your facility's HSAT workflow.
+> 2. Review 99457 time threshold change — encounters previously just under 20 min may now qualify; audit recent RPM claims.
+> 3. Monitor federalregister.gov in July 2026 for CY 2027 MPFS proposed rule.
 
 ---
 
 ## Summary
 
-| Task | Status |
-|------|--------|
-| CMS Provider/Service 2024 data | ERROR — fetch blocked |
-| AASM guideline updates (2026) | ERROR — fetch blocked |
-| Federal Register sleep apnea rules | ERROR — fetch blocked |
-| MPFS sleep/CCM code updates | ERROR — fetch blocked |
-
-**No changes detected** (checks could not complete due to network restrictions).
-
-**Recommended fix:** Run this monitor from an environment with outbound HTTPS access, or configure network egress rules to allow requests to `data.cms.gov`, `aasm.org`, and `federalregister.gov`.
+| Task | Finding | Action Required |
+|---|---|---|
+| CMS 2024 Provider-Service data | Likely released Oct 2025 — confirm manually | Yes — verify & run filter_ccm.py |
+| AASM guidelines | 2 new guidelines (CSA + inpatient OSA, Feb 2026) | Yes — review for coding/documentation impact |
+| Federal Register sleep rules 2026 | None found | No |
+| MPFS sleep/CCM codes | 95800 PE inputs changed; 99457 time threshold lowered | Yes — audit 99457 claims; confirm 95800 impact |
