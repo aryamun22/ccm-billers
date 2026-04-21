@@ -1,6 +1,7 @@
 # CMS Data Monitor Report
 
-**Generated:** 2026-04-20  
+**Last successful run:** 2026-04-20  
+**Latest run:** 2026-04-21 10:20 UTC — **FETCH BLOCKED** (data.cms.gov, aasm.org, federalregister.gov not in network allowlist; findings below are from 2026-04-20 and remain current)  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
