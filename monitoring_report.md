@@ -1,11 +1,11 @@
 # CMS Data Monitor Report
 
 **Last successful run:** 2026-04-20  
-**Latest run:** 2026-04-22 — **ALL FETCHES BLOCKED** (403 / ECONNREFUSED on all four sources)  
+**Latest run:** 2026-04-24 — **ALL FETCHES BLOCKED** (403 `Host not in allowlist` on all four sources)  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
-> **Network note:** data.cms.gov, aasm.org, federalregister.gov, and cms.gov all returned 403 or ECONNREFUSED. No new data could be retrieved. Findings from 2026-04-20 remain the last known state. Action items from that run are still open.
+> **Network note:** data.cms.gov, aasm.org, federalregister.gov, and cms.gov all returned 403 (`Host not in allowlist`). No new data could be retrieved. Findings from 2026-04-20 remain the last known state. Action items from that run are still open.
 
 ---
 
@@ -71,6 +71,7 @@ As of 2026-04-20: CY2026 MPFS Final Rule (CMS-1832-F) changes:
 
 | Date | Result |
 |---|---|
+| 2026-04-24 | All fetches blocked (403 `Host not in allowlist`) — no new findings |
 | 2026-04-22 | All fetches blocked (403 / ECONNREFUSED) — no new findings |
 | 2026-04-21 | All fetches blocked (403) — findings carried from 2026-04-20 |
 | 2026-04-20 | Partial success — findings above |
