@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
 **Last successful run:** 2026-05-06  
-**Latest run:** 2026-05-06 — **PARTIAL SUCCESS** (WebSearch used; direct WebFetch still 403)  
+**Latest run:** 2026-05-07T10:11:34Z — **NO NEW FINDINGS** (all fetches blocked; findings carried from 2026-05-06)  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -106,6 +106,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying) — ~3–
 
 | Date | Result |
 |---|---|
+| 2026-05-07 | All fetches blocked (403 / Host not in allowlist) — no new findings; prior findings carried forward |
 | 2026-05-06 | WebSearch partial success — new findings: AASM guidelines confirmed, 95800/95806/95801 deletion 1/1/2027 confirmed, CCM rate increases confirmed |
 | 2026-05-04 | All fetches blocked (403 `Host not in allowlist`) — no new findings |
 | 2026-04-28 | All fetches blocked (403 `Host not in allowlist`) — no new findings |
