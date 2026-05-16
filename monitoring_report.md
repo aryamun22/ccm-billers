@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-05-06  
-**Latest run:** 2026-05-15T00:00:00Z — **NO NEW FINDINGS** (all fetches blocked; findings carried from 2026-05-06)  
+**Last successful run:** 2026-05-16  
+**Latest run:** 2026-05-16T00:00:00Z — **NO NEW FINDINGS** (WebSearch partial success; findings confirmed unchanged from 2026-05-06)  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -17,7 +17,7 @@
 - A CY2024 distribution (covering claims year 2024, release year 2026) would be expected May–June 2026 — **not yet detected**
 - A methodology document dated May 30, 2024 (`MUP_PHY_RY24`) exists; that covers CY2022 data, not 2024
 
-> **Action item (open):** CY2024 data release likely imminent (expected May–June 2026). Manually check the dataset page weekly:  
+> **Action item (open):** CY2024 data release likely imminent — **we are now in the expected May–June 2026 release window.** Manually check the dataset page weekly:  
 > https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service  
 > When a 2024-12-31 distribution appears, download and run `filter_ccm.py`.
 
@@ -106,6 +106,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying) — ~3–
 
 | Date | Result |
 |---|---|
+| 2026-05-16 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-15 | All fetches blocked (403 / Host not in allowlist) — no new findings; prior findings carried forward |
 | 2026-05-09 | All fetches blocked (403 / Host not in allowlist) — no new findings; prior findings carried forward |
 | 2026-05-07 | All fetches blocked (403 / Host not in allowlist) — no new findings; prior findings carried forward |
