@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-05-19  
-**Latest run:** 2026-05-19T00:00:00Z — **⚠️ POTENTIAL NEW DATA DETECTED (Task 1)**  
+**Last successful run:** 2026-05-20  
+**Latest run:** 2026-05-20T00:00:00Z — **⚠️ NEW DATA CONFIRMED (Task 1 — CSV filename found)**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -11,23 +11,24 @@
 
 ## Task 1 — CMS Provider-and-Service 2024 Data Release
 
-**Status: ⚠️ POSSIBLE NEW DISTRIBUTION DETECTED — ACTION REQUIRED**
+**Status: ⚠️ NEW DISTRIBUTION CONFIRMED — DOWNLOAD REQUIRED**
 
-New evidence found today: a data dictionary PDF for **MUP_PHY_RY25** (Report Year 2025) is hosted directly on data.cms.gov with a March 12, 2025 publication date:
+**2025-05-20 update:** Today's search surfaced an actual CSV data filename, upgrading status from "data dictionary found" to "data files confirmed":
 
 ```
-https://data.cms.gov/sites/default/files/2025-03/
-  bbb1e50e-5ba8-42ed-b072-18368b6f37f9/
-  MUP_PHY_RY25_20250312_DD_PRV_SVC_508.pdf
+MUP_PHY_R25_P05_V20_D23_Prov_Svc.csv   ← R25=Release 2025, D23=Data year 2023
+MUP_PHY_R25_P05_V20_D22_Prov_Svc.csv   ← also present (prior year)
 ```
 
-The data dictionary filename pattern `MUP_PHY_RY25_20250312_DD_PRV_SVC` matches the Provider and Service dataset for Report Year 2025, published in the `2025-03` path — **post-dating the 2023-12-31 baseline.** CMS consistently publishes the data dictionary at the same time as the data files.
+These filenames confirm the RY25 (Report Year 2025) Provider-and-Service dataset exists, covering **CY2023 claims** — well past the 2023-12-31 baseline.
+
+Prior finding also stands: data dictionary PDF `MUP_PHY_RY25_20250312_DD_PRV_SVC_508.pdf` was published in the `2025-03` path on data.cms.gov (March 12, 2025).
 
 | Signal | Status |
 |---|---|
-| MUP_PHY_RY25 data dictionary (March 2025) | **Found — new post-baseline artifact** |
-| Actual CSV/data file URL | Not confirmed (direct fetch blocked) |
-| Data year covered by RY25 | Likely CY2023 claims |
+| MUP_PHY_RY25 data dictionary (March 2025) | **Confirmed — post-baseline** |
+| `MUP_PHY_R25_P05_V20_D23_Prov_Svc.csv` | **Confirmed filename — download pending** |
+| Data year covered by RY25 | **CY2023 claims** |
 | CY2024 data (RY26) | Not yet detected; expected mid-2026 |
 
 > **Action item — IMMEDIATE:** Visit the dataset page and check for a distribution dated after 2023-12-31:  
@@ -100,8 +101,11 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 |---|---|---|---|
 | 99490 (CCM, 20 min) | $60.49/mo | $66.30/mo | **+9.6%** |
 | 99439 (CCM add-on, 20 min) | $45.93/mo | $50.56/mo | **+10.1%** |
+| 99487 (complex CCM, 60 min) | ~$133/mo | ~$144/mo | ~+8% |
 | 99457 (RPM, first 20 min) | ~$50/mo | ~$52/mo | ~+4% |
 | 99453, 99454 (RPM setup/device) | (prior rates) | Updated 2026 | See CCNHealth analysis |
+
+**NEW (confirmed 2026-05-20):** Starting Jan 1, 2026, FQHCs and RHCs must bill CCM codes (99490, 99439, 99491, 99437, 99487, 99489) at the **national non-facility PFS rates** — same as fee-for-service practices. Time and documentation must be tracked separately per code.
 
 ### 2027 MPFS Proposed Rule
 
@@ -120,6 +124,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-05-20 | WebSearch partial success — **⚠️ MUP_PHY_R25 CSV filename confirmed (`D23_Prov_Svc.csv`); RY25 data files exist; FQHC/RHC CCM billing detail added** |
 | 2026-05-19 | WebSearch partial success — **⚠️ MUP_PHY_RY25 data dictionary (March 2025) found; possible new distribution post-baseline** |
 | 2026-05-18 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-17 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
@@ -142,7 +147,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Task | Finding | Action Required |
 |---|---|---|
-| CMS 2024 Provider-Service data | **⚠️ MUP_PHY_RY25 data dictionary (March 2025) found — possible new distribution** | **Yes — verify and download immediately** |
+| CMS 2024 Provider-Service data | **⚠️ MUP_PHY_R25 CSV confirmed (`D23_Prov_Svc.csv`) — CY2023 data available** | **Yes — download and run filter_ccm.py** |
 | AASM guidelines | 2 new 2025 guidelines (CSA treatment + inpatient OSA) — no 2026 updates | Yes — review for documentation impact |
 | Federal Register sleep rules | No new CMS rules; FDA device classification April 2026 (non-billing) | No |
 | MPFS — code deletions | **95800, 95801, 95806 deleted Jan 1, 2027** | **URGENT — begin transition** |
