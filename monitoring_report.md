@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
 **Last successful run:** 2026-05-21  
-**Latest run:** 2026-05-22T10:13:16Z — **No new findings; all prior findings confirmed unchanged**  
+**Latest run:** 2026-05-23T10:06:39Z — **No new findings; all prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -124,6 +124,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-05-23 | All fetches blocked (403 / Host not in allowlist) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-22 | All fetches blocked (403 / Host not in allowlist) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-21 | WebSearch partial success — no new findings; all prior findings confirmed unchanged |
 | 2026-05-20 | WebSearch partial success — **⚠️ MUP_PHY_R25 CSV filename confirmed (`D23_Prov_Svc.csv`); RY25 data files exist; FQHC/RHC CCM billing detail added** |
