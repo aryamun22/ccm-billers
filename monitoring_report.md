@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
 **Last successful run:** 2026-05-21  
-**Latest run:** 2026-05-24T10:01:00Z — **No new findings; all prior findings confirmed unchanged**  
+**Latest run:** 2026-05-25T10:01:00Z — **No new findings; all prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -124,6 +124,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-05-25 | All fetches blocked (403 / Host not in allowlist) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-24 | All fetches blocked (403 / Host not in allowlist) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-23 | All fetches blocked (403 / Host not in allowlist) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-22 | All fetches blocked (403 / Host not in allowlist) — no new findings; all prior findings confirmed unchanged |
