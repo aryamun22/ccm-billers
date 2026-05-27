@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-05-21  
-**Latest run:** 2026-05-26T10:07:00Z — **No new findings; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-05-27  
+**Latest run:** 2026-05-27 — **CY2026 MPFS Correction Notice (March 12, 2026) details confirmed; all prior findings unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -105,6 +105,15 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 | 99457 (RPM, first 20 min) | ~$50/mo | ~$52/mo | ~+4% |
 | 99453, 99454 (RPM setup/device) | (prior rates) | Updated 2026 | See CCNHealth analysis |
 
+### CY2026 MPFS Correction Notice — March 12, 2026
+
+[Federal Register 2026-04797](https://www.federalregister.gov/documents/2026/03/12/2026-04797/) — typographical and technical corrections to the Nov 5, 2025 final rule.
+
+- PE RVUs recalculated for: **99445, 99454, 98977, 98985** (plus radiation therapy codes 77402–77438)
+- All PFS PE RVUs adjusted for budget neutrality — minor downstream effects on sleep and CCM codes
+- **New code 99445** confirmed: RPM device supply billable for **2–15 days** of data transmitted in a 30-day period, paid at the same rate as **99454** (which now requires ≥16 days)
+- No sleep-specific (95806/95810/95811) or CCM-specific (99490/99439) rate corrections in this notice
+
 **NEW (confirmed 2026-05-20):** Starting Jan 1, 2026, FQHCs and RHCs must bill CCM codes (99490, 99439, 99491, 99437, 99487, 99489) at the **national non-facility PFS rates** — same as fee-for-service practices. Time and documentation must be tracked separately per code.
 
 ### 2027 MPFS Proposed Rule
@@ -124,6 +133,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-05-27 | WebSearch partial success (direct fetches blocked 403) — **CY2026 MPFS Correction Notice (FR 2026-04797) details confirmed: 99445 2–15-day billing rule, PE RVU corrections for 99454/98977/98985; no other new findings** |
 | 2026-05-26 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-25 | All fetches blocked (403 / Host not in allowlist) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-24 | All fetches blocked (403 / Host not in allowlist) — no new findings; all prior findings confirmed unchanged |
