@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-05-28  
-**Latest run:** 2026-05-28 — **No new findings; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-05-29  
+**Latest run:** 2026-05-29 10:05 UTC — **No new findings; all prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -133,6 +133,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-05-29 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-28 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-27 | WebSearch partial success (direct fetches blocked 403) — **CY2026 MPFS Correction Notice (FR 2026-04797) details confirmed: 99445 2–15-day billing rule, PE RVU corrections for 99454/98977/98985; no other new findings** |
 | 2026-05-26 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
