@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-05-30  
-**Latest run:** 2026-05-30 10:04 UTC — **No new findings; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-05-31  
+**Latest run:** 2026-05-31 UTC — **New AASM 2026 guideline found (chronic insomnia combination therapy); all other prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -39,18 +39,27 @@ Prior finding also stands: data dictionary PDF `MUP_PHY_RY25_20250312_DD_PRV_SVC
 
 ## Task 2 — AASM Scoring Manual / Guideline Updates
 
-**Status: NO CHANGE FROM PRIOR RUN**
+**Status: ⚠️ NEW 2026 GUIDELINE DETECTED**
 
-AASM Scoring Manual remains at **Version 3 (2023)** — no new version or 2026 updates detected.
+AASM Scoring Manual remains at **Version 3 (2023)** — no new scoring manual version detected.
 
-Two new clinical practice guidelines confirmed published in 2025, hosted on aasm.org:
+**New in this run (2026-05-31):**
+
+| Document | Published | Notes |
+|---|---|---|
+| **Combination Treatments for Chronic Insomnia** | **April 13, 2026 (JCSM)** | **NEW — recommendations on combining CBT-I with pharmacotherapy** |
+
+Previously confirmed 2025 guidelines (unchanged):
 
 | Document | Published | Notes |
 |---|---|---|
 | Treatment of Central Sleep Apnea in Adults | Dec 2025 (JCSM Vol. 21 No. 12) | Updates 2012/2016 practice parameters; adds transvenous phrenic nerve stimulation |
 | Evaluation and Management of Obstructive Sleep Apnea in Adults (Inpatient) | 2025 | New inpatient setting guideline |
+| RLS and PLMD Clinical Practice Guideline | 2025 | Updated recommendations |
 
-> **Action item (open):** Review both guidelines for documentation requirements affecting 95810/95811 ordering, CPAP/BiPAP titration justification, and HSAT eligibility under G0399.
+> **Action items:**
+> - **NEW (2026-05-31):** Review April 2026 chronic insomnia combination therapy guideline for documentation impact on 99490/CCM billing where insomnia is a co-managed condition.
+> - **Open:** Review 2025 guidelines for documentation requirements affecting 95810/95811 ordering, CPAP/BiPAP titration justification, and HSAT eligibility under G0399.
 
 ---
 
@@ -133,6 +142,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-05-31 | WebSearch partial success (direct fetches blocked 403) — **⚠️ New AASM guideline found: combination chronic insomnia treatment (April 13, 2026, JCSM); all other findings unchanged** |
 | 2026-05-30 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-29 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-28 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
@@ -167,7 +177,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 | Task | Finding | Action Required |
 |---|---|---|
 | CMS 2024 Provider-Service data | **⚠️ MUP_PHY_R25 CSV confirmed (`D23_Prov_Svc.csv`) — CY2023 data available** | **Yes — download and run filter_ccm.py** |
-| AASM guidelines | 2 new 2025 guidelines (CSA treatment + inpatient OSA) — no 2026 updates | Yes — review for documentation impact |
+| AASM guidelines | **⚠️ NEW: April 2026 insomnia combo therapy guideline; + 3 prior 2025 guidelines** | **Yes — review April 2026 guideline for CCM documentation impact** |
 | Federal Register sleep rules | No new CMS rules; FDA device classification April 2026 (non-billing) | No |
 | MPFS — code deletions | **95800, 95801, 95806 deleted Jan 1, 2027** | **URGENT — begin transition** |
 | MPFS — rate changes | CCM up ~10%; sleep codes −2.5%; facility labs −7% indirect PE | Yes — update fee schedules |
