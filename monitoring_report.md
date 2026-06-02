@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-01  
-**Latest run:** 2026-06-01 UTC — **No new findings; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-06-02  
+**Latest run:** 2026-06-02 UTC — **No new findings; all prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -142,6 +142,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-06-02 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-06-01 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-31 | WebSearch partial success (direct fetches blocked 403) — **⚠️ New AASM guideline found: combination chronic insomnia treatment (April 13, 2026, JCSM); all other findings unchanged** |
 | 2026-05-30 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
