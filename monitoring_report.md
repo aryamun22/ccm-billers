@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-02  
-**Latest run:** 2026-06-02 UTC — **No new findings; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-06-03  
+**Latest run:** 2026-06-03 UTC — **No new findings; all prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -129,6 +129,10 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 - **Not yet released.** Expected ~July 2026. Monitor cms.gov for CMS-1833-P (or next rule number in sequence).
 
+### Upcoming: AASM OSA in Adults Full Clinical Guideline (watch)
+
+- AASM is preparing a full updated clinical guideline for evaluation, management, and long-term care of OSA in adults, targeted for publication **end of 2026** (per JCSM). Will supersede the 2009 guideline and 2023 scoring manual annotations. Monitor for impact on 95810/95811/G0399 documentation requirements.
+
 > **Action items:**
 > 1. **IMMEDIATE — Task 1:** Check dataset page for MUP_PHY_RY25 data files (see Task 1 above).
 > 2. **URGENT — 95806/95800/95801:** Begin transition to replacement codes before Jan 1, 2027. Contact AASM coding resources for new code numbers once released by AMA.
@@ -142,6 +146,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-06-03 | WebSearch partial success (direct fetches blocked 403) — no new findings; added AASM OSA-in-Adults full guideline (end-of-2026) to watch list |
 | 2026-06-02 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-06-01 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-05-31 | WebSearch partial success (direct fetches blocked 403) — **⚠️ New AASM guideline found: combination chronic insomnia treatment (April 13, 2026, JCSM); all other findings unchanged** |
