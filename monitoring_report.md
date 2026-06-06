@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-05  
-**Latest run:** 2026-06-05 UTC — **No new findings; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-06-06  
+**Latest run:** 2026-06-06 UTC — **No new findings; all prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -146,6 +146,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-06-06 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-06-05 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-06-04 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-06-03 | WebSearch partial success (direct fetches blocked 403) — no new findings; added AASM OSA-in-Adults full guideline (end-of-2026) to watch list |
