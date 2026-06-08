@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-07  
-**Latest run:** 2026-06-07 UTC — **No new findings; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-06-08  
+**Latest run:** 2026-06-08 UTC — **Possible CY2024 data signal (unconfirmed); all prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -29,7 +29,7 @@ Prior finding also stands: data dictionary PDF `MUP_PHY_RY25_20250312_DD_PRV_SVC
 | MUP_PHY_RY25 data dictionary (March 2025) | **Confirmed — post-baseline** |
 | `MUP_PHY_R25_P05_V20_D23_Prov_Svc.csv` | **Confirmed filename — download pending** |
 | Data year covered by RY25 | **CY2023 claims** |
-| CY2024 data (RY26) | Not yet detected; expected mid-2026 |
+| CY2024 data (RY26) | **⚠️ Possible — 2026-06-08 search snippet says "covers calendar year 2024"; unconfirmed. Direct fetch blocked 403.** |
 
 > **Action item — IMMEDIATE:** Visit the dataset page and check for a distribution dated after 2023-12-31:  
 > https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service  
@@ -146,6 +146,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-06-08 | WebSearch partial success (direct fetches blocked 403) — **⚠️ Search snippet mentions "calendar year 2024" data on CMS dataset page — possible RY26 release; manual verification required. No other new findings.** |
 | 2026-06-07 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-06-06 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
 | 2026-06-05 | WebSearch partial success (direct fetches blocked 403) — no new findings; all prior findings confirmed unchanged |
