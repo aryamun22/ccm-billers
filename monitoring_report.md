@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-15  
-**Latest run:** 2026-06-15 UTC — **No new findings; CY2024 (RY26) data not yet released; CY2027 MPFS proposed rule not yet released; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-06-16  
+**Latest run:** 2026-06-16 UTC — **No new findings; CY2024 (RY26) data not yet released; CY2027 MPFS proposed rule not yet released; all prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -146,6 +146,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-06-16 | WebSearch partial success (direct fetches blocked 403) — No new findings. CMS dataset page again surfaces "CY2024" language (same ambiguous signal as 06-08/06-12); no D24_Prov_Svc filename found. CY2027 MPFS proposed rule not yet released. AASM scoring manual still v3. No new CMS FR sleep apnea rules. All prior findings confirmed unchanged. |
 | 2026-06-15 | WebSearch partial success (direct fetches blocked 403) — No new findings. No D24_Prov_Svc file found; CY2024 (RY26) data not yet released. "March 2026 CPAP expansion" signal investigated and confirmed false positive (refers to 2008 NCD 240.4). CY2027 MPFS proposed rule not yet released. AASM no new guidelines. All prior findings confirmed unchanged. |
 | 2026-06-14 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) data not yet released; D24 filename not found. CY2027 MPFS proposed rule not yet released (expected ~July 2026). AASM scoring manual still v3 (2023). No new CMS FR sleep apnea rules in 2026. All prior findings confirmed unchanged. |
 | 2026-06-13 | WebSearch partial success (direct fetches blocked 403) — No new findings. CMS search confirms CY2024 dataset page exists but D24 filename search still negative — RY26 data not yet released. CY2027 MPFS proposed rule not yet released (expected ~July 2026). AASM scoring manual still v3 (2023); accreditation standards updated Jan 2025 only. No new CMS FR sleep apnea rules in 2026. All prior findings confirmed unchanged. |
