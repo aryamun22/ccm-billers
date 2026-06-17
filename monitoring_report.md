@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-16  
-**Latest run:** 2026-06-16 UTC — **No new findings; CY2024 (RY26) data not yet released; CY2027 MPFS proposed rule not yet released; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-06-17  
+**Latest run:** 2026-06-17 UTC — **No new findings; CY2024 (RY26) data not yet released; CY2027 MPFS proposed rule not yet released; new detail added to Task 3 (CMS Interoperability PA rule, Apr 2026); all prior findings confirmed unchanged**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -65,13 +65,14 @@ Previously confirmed 2025 guidelines (unchanged):
 
 ## Task 3 — Federal Register: Sleep Apnea Rules (CMS, 2026)
 
-**Status: NO NEW CMS RULES — FDA DEVICE RULE NOTED (previously reported)**
+**Status: NO NEW CMS RULES — FDA DEVICE RULE + CMS INTEROPERABILITY RULE NOTED**
 
 - **No new CMS proposed or final rules** specifically addressing sleep apnea published in 2026
 - **FDA Rule (not CMS):** Classification of sleep apnea testing device (mandibular movement-based) → Class II special controls, effective **April 22, 2026** (FR 2026-07862, FDA-2026-N-3929). Not a billing change; affects device manufacturers only.
+- **CMS Interoperability and Prior Authorization Proposed Rule (April 14, 2026):** Not sleep-specific, but explicitly provisions exchange of **polysomnography reports, home sleep apnea test results, PAP adherence data, and validated questionnaires** via standardized APIs. If finalized, may reduce prior auth delays for CPAP/HSAT and improve payer data exchange. AASM submitted comments. Watch for final rule.
 - Note: CPT code 95800 re-nomination for misvaluation was active in the CY2026 PFS proposed rule (decided in the CY2026 final rule)
 
-> No billing action required. Monitor for 2027 MPFS proposed rule (~July 2026) which may include sleep apnea coverage changes.
+> No direct billing action required. Monitor for 2027 MPFS proposed rule (~July 2026). Watch final disposition of the Interoperability PA rule for HSAT/PAP auth workflow changes.
 
 ---
 
@@ -146,6 +147,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-06-17 | WebSearch partial success (direct fetches blocked 403) — No new findings. CMS dataset page continues to show "CY2024" language; no D24_Prov_Svc filename confirmed (same pattern as prior days). New detail added to Task 3: CMS Interoperability and Prior Authorization Proposed Rule (Apr 14, 2026) explicitly provisions polysomnography/HSAT/PAP data exchange — relevant to sleep practice workflows. CY2027 MPFS proposed rule not yet released. AASM scoring manual still v3. All prior findings confirmed unchanged. |
 | 2026-06-16 | WebSearch partial success (direct fetches blocked 403) — No new findings. CMS dataset page again surfaces "CY2024" language (same ambiguous signal as 06-08/06-12); no D24_Prov_Svc filename found. CY2027 MPFS proposed rule not yet released. AASM scoring manual still v3. No new CMS FR sleep apnea rules. All prior findings confirmed unchanged. |
 | 2026-06-15 | WebSearch partial success (direct fetches blocked 403) — No new findings. No D24_Prov_Svc file found; CY2024 (RY26) data not yet released. "March 2026 CPAP expansion" signal investigated and confirmed false positive (refers to 2008 NCD 240.4). CY2027 MPFS proposed rule not yet released. AASM no new guidelines. All prior findings confirmed unchanged. |
 | 2026-06-14 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) data not yet released; D24 filename not found. CY2027 MPFS proposed rule not yet released (expected ~July 2026). AASM scoring manual still v3 (2023). No new CMS FR sleep apnea rules in 2026. All prior findings confirmed unchanged. |
