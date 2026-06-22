@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-21  
-**Latest run:** 2026-06-21 UTC — **No new findings; CY2024 (RY26) data not yet released; CY2027 MPFS proposed rule not yet released (expected ~July 2026); AASM scoring manual still v3; no new CMS FR sleep apnea rules; all prior findings confirmed unchanged**  
+**Last successful run:** 2026-06-22  
+**Latest run:** 2026-06-22 UTC — **⚠️ NEW FINDING: Chronic Care Management Improvement Act of 2026 (H.R. 8261) confirmed — bipartisan bill to eliminate 20% Medicare patient cost-sharing for CCM, introduced April 14, 2026, in committee. All other monitors unchanged.**  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -126,9 +126,21 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 **NEW (confirmed 2026-05-20):** Starting Jan 1, 2026, FQHCs and RHCs must bill CCM codes (99490, 99439, 99491, 99437, 99487, 99489) at the **national non-facility PFS rates** — same as fee-for-service practices. Time and documentation must be tracked separately per code.
 
+### ⚠️ NEW (2026-06-22): Chronic Care Management Improvement Act of 2026 (H.R. 8261)
+
+Introduced April 14, 2026. **Bipartisan** (Reps. DelBene D-WA / Kelly R-PA). Currently in committee.
+
+**Key provision:** Eliminates the **20% Medicare Part B cost-sharing** for CCM services (99490, 99439, 99487, 99491, 99453, 99454, 99457). Today patients pay ~$12–26/month out-of-pocket per CCM session — a known enrollment barrier. Only ~4% of the 22 million eligible Medicare beneficiaries currently use CCM.
+
+Endorsed by: AHA, AAMC, MGMA, AMGA (as of April 14, 2026).
+
+**If enacted:** Removal of patient cost-sharing would likely sharply increase CCM enrollment and billing volume. Practices using ccm-billers should model for demand growth. No changes to provider billing codes required — impact is patient-side.
+
+Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congress/house-bill/8261) — referred to committee; no floor vote scheduled yet.
+
 ### 2027 MPFS Proposed Rule
 
-- **Not yet released.** Expected ~July 2026. Monitor cms.gov for CMS-1833-P (or next rule number in sequence).
+- **Not yet released.** Expected ~mid-July 2026. Monitor cms.gov for CMS-1833-P (or next rule number in sequence).
 
 ### Upcoming: AASM OSA in Adults Full Clinical Guideline (watch)
 
@@ -147,6 +159,7 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Date | Result |
 |---|---|
+| 2026-06-22 | WebSearch partial success (direct fetches blocked 403) — **⚠️ NEW: Chronic Care Management Improvement Act of 2026 (H.R. 8261) confirmed — bipartisan bill, introduced Apr 14 2026, in committee; would eliminate 20% patient cost-sharing for CCM. AHA/AAMC/MGMA/AMGA endorsed.** CMS data: no CY2024 D24 file confirmed (same ambiguous signal as prior runs). CY2027 MPFS not yet released. AASM: no new scoring manual; CSA/inpatient OSA/insomnia guidelines already captured. No new CMS FR sleep apnea rules. |
 | 2026-06-21 | WebSearch partial success (direct fetches blocked 403) — No new findings. CMS search reconfirmed same "CY2024 data, published Dec 9 2025, last updated May 21 2026" signal (same as Jun 8/12/16 runs; D24 explicit search was negative Jun 9 — no filename confirmed). CY2027 MPFS proposed rule not yet released (expected ~July 2026). AASM scoring manual still v3 (2023); no new 2026 guidelines. No new CMS FR sleep apnea rules. All prior findings confirmed unchanged. |
 | 2026-06-20 | WebSearch partial success (direct fetches blocked 403) — No new findings. No D24_Prov_Svc filename found; CY2024 (RY26) data not yet released. CY2027 MPFS proposed rule not yet released (expected ~July 2026). AASM scoring manual still v3 (2023); no new 2026 guidelines. No new CMS FR sleep apnea rules. All prior findings confirmed unchanged. |
 | 2026-06-19 | WebSearch partial success (direct fetches blocked 403) — No new findings. No D24_Prov_Svc filename found; CY2024 (RY26) data not yet released. CY2027 MPFS proposed rule not yet released (expected ~July 2026). AASM scoring manual still v3 (2023); no new 2026 guidelines. No new CMS FR sleep apnea rules. All prior findings confirmed unchanged. |
@@ -202,8 +215,9 @@ Conversion factors: **$33.40** (non-APM) / **$33.57** (APM qualifying).
 
 | Task | Finding | Action Required |
 |---|---|---|
-| CMS 2024 Provider-Service data | **⚠️ MUP_PHY_R25 CSV confirmed (`D23_Prov_Svc.csv`) — CY2023 data available** | **Yes — download and run filter_ccm.py** |
-| AASM guidelines | **⚠️ NEW: April 2026 insomnia combo therapy guideline; + 3 prior 2025 guidelines** | **Yes — review April 2026 guideline for CCM documentation impact** |
+| CMS 2024 Provider-Service data | **⚠️ MUP_PHY_R25 CSV confirmed (`D23_Prov_Svc.csv`) — CY2023 data available; CY2024 not yet released** | **Yes — download and run filter_ccm.py for CY2023 data** |
+| AASM guidelines | **⚠️ NEW (Apr 2026): insomnia combo therapy guideline; + 3 prior 2025 guidelines** | **Yes — review April 2026 guideline for CCM documentation impact** |
 | Federal Register sleep rules | No new CMS rules; FDA device classification April 2026 (non-billing) | No |
 | MPFS — code deletions | **95800, 95801, 95806 deleted Jan 1, 2027** | **URGENT — begin transition** |
 | MPFS — rate changes | CCM up ~10%; sleep codes −2.5%; facility labs −7% indirect PE | Yes — update fee schedules |
+| **⚠️ CCM Improvement Act (H.R. 8261)** | **NEW (Jun 22): Bipartisan bill to eliminate 20% patient cost-sharing for CCM — in committee** | **Monitor — if passed, model for enrollment surge** |
