@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-24  
-**Latest run:** 2026-06-24 10:03 UTC — No new findings. CY2024 (RY26) CMS data not yet confirmed; CY2027 MPFS proposed rule not yet released (expected ~mid-July 2026); no new AASM guidelines; no new CMS sleep apnea FR rules. All prior findings unchanged.  
+**Last successful run:** 2026-06-25  
+**Latest run:** 2026-06-25 UTC — ⚠️ NEW: WISeR Model (HNS prior auth for OSA, 6 states, effective Jan 15 2026) added to Task 3. CY2024 (RY26) data not yet confirmed; CY2027 MPFS proposed rule not yet released (expected ~mid-July 2026); no new AASM guidelines beyond what was already captured.  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -72,7 +72,23 @@ Previously confirmed 2025 guidelines (unchanged):
 - **CMS Interoperability and Prior Authorization Proposed Rule (April 14, 2026):** Not sleep-specific, but explicitly provisions exchange of **polysomnography reports, home sleep apnea test results, PAP adherence data, and validated questionnaires** via standardized APIs. If finalized, may reduce prior auth delays for CPAP/HSAT and improve payer data exchange. AASM submitted comments. Watch for final rule.
 - Note: CPT code 95800 re-nomination for misvaluation was active in the CY2026 PFS proposed rule (decided in the CY2026 final rule)
 
-> No direct billing action required. Monitor for 2027 MPFS proposed rule (~July 2026). Watch final disposition of the Interoperability PA rule for HSAT/PAP auth workflow changes.
+### ⚠️ NEW (2026-06-25): WISeR Model — HNS Prior Authorization for OSA (Effective Jan 15, 2026)
+
+**FR 2025-12195** (published July 1, 2025) — CMS implemented prior authorization for **Hypoglossal Nerve Stimulation (HNS) for Obstructive Sleep Apnea** under the WISeR (Wasteful and Inappropriate Service Reduction) Model.
+
+| Detail | Value |
+|---|---|
+| Effective date | **January 15, 2026** (PA requests accepted from January 5, 2026) |
+| States affected | **NJ, OH, OK, TX, AZ, WA** (six-state model, runs through Dec 31, 2031) |
+| Relevant LCDs | L38276, L38307, L38398, L38387, L38310, L38312, L38385, L38528 |
+| Payment change | **None** — enforces existing coverage criteria only |
+| AI/ML review | CMS uses AI + human clinical review for prior auth decisions |
+
+**Impact:** Practices implanting HNS devices for OSA in these 6 states must obtain prior authorization before the procedure. No change in allowed payment amounts. Existing coverage criteria (per LCD L38276) remain unchanged. Affects ENT/sleep surgeons billing HNS implant codes (e.g., 64568, 64569, 64570).
+
+> **Action item:** If your practice is in NJ, OH, OK, TX, AZ, or WA and performs HNS implantation for OSA, verify prior auth workflow is in place. No billing code changes required.
+
+> No other new CMS sleep apnea rules in 2026. Monitor for 2027 MPFS proposed rule (~July 2026). Watch final disposition of the Interoperability PA rule for HSAT/PAP auth workflow changes.
 
 ---
 
@@ -159,6 +175,7 @@ Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congre
 
 | Date | Result |
 |---|---|
+| 2026-06-25 | WebSearch partial success (direct fetches blocked 403) — **⚠️ NEW: WISeR Model HNS prior auth for OSA (6 states, effective Jan 15 2026, FR 2025-12195) added to Task 3.** CY2024 (RY26) D24_Prov_Svc file not confirmed; CY2027 MPFS proposed rule not yet released (~mid-July 2026); AASM scoring manual still v3 (2023), no new 2026 guidelines. |
 | 2026-06-24 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) D24_Prov_Svc file not confirmed; CY2027 MPFS proposed rule not yet released (expected ~mid-July 2026); AASM scoring manual still v3 (2023), no new 2026 guidelines; no new CMS FR sleep apnea rules. All prior findings confirmed unchanged. |
 | 2026-06-23 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) D24_Prov_Svc file not confirmed; same ambiguous "CY2024 dataset page" signal as prior runs. CY2027 MPFS proposed rule not yet released (expected ~mid-July 2026). AASM: no new scoring manual or guidelines. No new CMS FR sleep apnea rules. All prior findings confirmed unchanged. |
 | 2026-06-22 | WebSearch partial success (direct fetches blocked 403) — **⚠️ NEW: Chronic Care Management Improvement Act of 2026 (H.R. 8261) confirmed — bipartisan bill, introduced Apr 14 2026, in committee; would eliminate 20% patient cost-sharing for CCM. AHA/AAMC/MGMA/AMGA endorsed.** CMS data: no CY2024 D24 file confirmed (same ambiguous signal as prior runs). CY2027 MPFS not yet released. AASM: no new scoring manual; CSA/inpatient OSA/insomnia guidelines already captured. No new CMS FR sleep apnea rules. |
@@ -219,7 +236,7 @@ Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congre
 |---|---|---|
 | CMS 2024 Provider-Service data | **⚠️ MUP_PHY_R25 CSV confirmed (`D23_Prov_Svc.csv`) — CY2023 data available; CY2024 not yet released** | **Yes — download and run filter_ccm.py for CY2023 data** |
 | AASM guidelines | **⚠️ NEW (Apr 2026): insomnia combo therapy guideline; + 3 prior 2025 guidelines** | **Yes — review April 2026 guideline for CCM documentation impact** |
-| Federal Register sleep rules | No new CMS rules; FDA device classification April 2026 (non-billing) | No |
+| Federal Register sleep rules | **⚠️ NEW (Jun 25): WISeR Model — HNS prior auth for OSA in 6 states (eff. Jan 15 2026); FDA device classification April 2026 (non-billing)** | **If in NJ/OH/OK/TX/AZ/WA: verify HNS PA workflow** |
 | MPFS — code deletions | **95800, 95801, 95806 deleted Jan 1, 2027** | **URGENT — begin transition** |
 | MPFS — rate changes | CCM up ~10%; sleep codes −2.5%; facility labs −7% indirect PE | Yes — update fee schedules |
 | **⚠️ CCM Improvement Act (H.R. 8261)** | **NEW (Jun 22): Bipartisan bill to eliminate 20% patient cost-sharing for CCM — in committee** | **Monitor — if passed, model for enrollment surge** |
