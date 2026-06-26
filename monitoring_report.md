@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-25  
-**Latest run:** 2026-06-25 UTC — ⚠️ NEW: WISeR Model (HNS prior auth for OSA, 6 states, effective Jan 15 2026) added to Task 3. CY2024 (RY26) data not yet confirmed; CY2027 MPFS proposed rule not yet released (expected ~mid-July 2026); no new AASM guidelines beyond what was already captured.  
+**Last successful run:** 2026-06-26  
+**Latest run:** 2026-06-26 10:03 UTC — No new findings. WebSearch partial success (direct fetches blocked 403). CY2024 (RY26) D24_Prov_Svc not confirmed; CY2027 MPFS proposed rule not yet released (confirmed, expected ~mid-July 2026); no new AASM guidelines; no new CMS FR sleep apnea rules. All prior findings unchanged.  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -175,6 +175,7 @@ Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congre
 
 | Date | Result |
 |---|---|
+| 2026-06-26 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) D24_Prov_Svc not confirmed; CY2027 MPFS proposed rule confirmed not yet released (~mid-July 2026); AASM no new guidelines; no new CMS FR sleep apnea rules. All prior findings unchanged. |
 | 2026-06-25 | WebSearch partial success (direct fetches blocked 403) — **⚠️ NEW: WISeR Model HNS prior auth for OSA (6 states, effective Jan 15 2026, FR 2025-12195) added to Task 3.** CY2024 (RY26) D24_Prov_Svc file not confirmed; CY2027 MPFS proposed rule not yet released (~mid-July 2026); AASM scoring manual still v3 (2023), no new 2026 guidelines. |
 | 2026-06-24 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) D24_Prov_Svc file not confirmed; CY2027 MPFS proposed rule not yet released (expected ~mid-July 2026); AASM scoring manual still v3 (2023), no new 2026 guidelines; no new CMS FR sleep apnea rules. All prior findings confirmed unchanged. |
 | 2026-06-23 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) D24_Prov_Svc file not confirmed; same ambiguous "CY2024 dataset page" signal as prior runs. CY2027 MPFS proposed rule not yet released (expected ~mid-July 2026). AASM: no new scoring manual or guidelines. No new CMS FR sleep apnea rules. All prior findings confirmed unchanged. |
