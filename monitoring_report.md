@@ -1,11 +1,11 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-06-29  
-**Latest run:** 2026-06-29 UTC — No new findings. WebSearch partial success (direct fetches blocked 403). CY2024 (RY26) D24_Prov_Svc not confirmed; CY2027 MPFS proposed rule not yet released (confirmed, expected ~mid-July 2026 — 2 weeks out); no new AASM guidelines; no new CMS FR sleep apnea rules. All prior findings unchanged.  
+**Last successful run:** 2026-09-03  
+**Latest run:** 2026-09-03 UTC — **⚠️ MAJOR NEW FINDINGS:** CY2027 MPFS proposed rule (CMS-1848-P) released July 16 2026 — 6 new HST replacement codes proposed, **comment deadline September 14 2026 (11 days away)**; OIG PAP compliance report released with $15.2M improper payments finding. WebSearch partial success (direct fetches blocked by proxy). CY2024 (RY26) D24_Prov_Svc not confirmed. AASM scoring manual still v3. H.R. 8261 still in committee.  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
-> **Network note:** data.cms.gov, aasm.org, and federalregister.gov still return 403 on direct fetch. This run used WebSearch to retrieve substantive findings. URLs cannot be download-verified.
+> **Network note:** data.cms.gov, aasm.org, federalregister.gov, and oig.hhs.gov still return 403/EGRESS_BLOCKED on direct fetch. This run used WebSearch to retrieve substantive findings. URLs cannot be download-verified.
 
 ---
 
@@ -88,7 +88,22 @@ Previously confirmed 2025 guidelines (unchanged):
 
 > **Action item:** If your practice is in NJ, OH, OK, TX, AZ, or WA and performs HNS implantation for OSA, verify prior auth workflow is in place. No billing code changes required.
 
-> No other new CMS sleep apnea rules in 2026. Monitor for 2027 MPFS proposed rule (~July 2026). Watch final disposition of the Interoperability PA rule for HSAT/PAP auth workflow changes.
+### ⚠️ NEW (2026-09-03): OIG Report — Medicare PAP Device Payments (2026)
+
+OIG released a report finding Medicare payments for PAP devices "generally complied" with requirements, but identifying significant improper payments:
+
+| Finding | Value |
+|---|---|
+| Improper payments identified | **$15.2 million** |
+| CPAP improper payment rate | **12.5%** (2024 data) |
+| Projected improper amount | **$146.1 million** |
+| Primary issue | Missing/inadequate documentation supporting PAP claims |
+| OIG recommendation | CMS provide outreach/education to suppliers on PAP coverage requirements |
+| CMS response | Pending (report 2026) |
+
+> **Action item:** Heightened audit risk for CPAP/PAP suppliers. Ensure all PAP claims have: (1) qualifying sleep study on file, (2) valid AHI/RDI meeting LCD thresholds, (3) face-to-face evaluation documentation, (4) sleep study not older than 12 months (new 2026 rule). Conduct internal documentation audit.
+
+> No other new CMS sleep apnea rules in 2026. CY2027 MPFS proposed rule is out (see Task 4). Watch final disposition of the Interoperability PA rule for HSAT/PAP auth workflow changes.
 
 ---
 
@@ -154,9 +169,31 @@ Endorsed by: AHA, AAMC, MGMA, AMGA (as of April 14, 2026).
 
 Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congress/house-bill/8261) — referred to committee; no floor vote scheduled yet.
 
-### 2027 MPFS Proposed Rule
+### ⚠️ CY2027 MPFS Proposed Rule — RELEASED (CMS-1848-P)
 
-- **Not yet released.** Expected ~mid-July 2026. Monitor cms.gov for CMS-1833-P (or next rule number in sequence).
+**Published:** July 16, 2026 (Federal Register doc 2026-14327)  
+**Comment deadline: September 14, 2026 — 11 days from this report**  
+**AASM analysis:** https://aasm.org/cms-releases-2027-physician-fee-schedule-proposed-rule-key-takeaways-for-sleep-medicine/  
+**CMS fact sheet:** https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2027-medicare-physician-fee-schedule-proposed-rule
+
+#### ⚠️ NEW HOME SLEEP TESTING CODES (replacing 95800/95801/95806)
+
+| Feature | Detail |
+|---|---|
+| Current codes deleted Jan 1, 2027 | 95800, 95801, 95806 |
+| Replacement | **6 new CPT codes** (effective Jan 1, 2027) |
+| Code structure | Splits into **technical** (setup, acquisition, scoring) + **professional** (interpretation/reporting) components |
+| Final values | Published in MPFS final rule expected **October 2026** |
+| Source | AMA CPT Editorial Panel Feb 2025 decision; proposed RVUs in CMS-1848-P |
+
+> **Action item — URGENT:** Comment period closes **September 14, 2026**. Review proposed RVUs for the new HST codes and submit comments via regulations.gov (CMS-1848-P) if RVU values are inadequate. Consult AASM's analysis (above) for sleep-medicine-specific advocacy points.
+
+#### CY2027 Conversion Factor
+
+| Participant type | Update |
+|---|---|
+| Qualifying APM (QP) | **+0.75%** |
+| Non-qualifying APM | **+0.25%** |
 
 ### Upcoming: AASM OSA in Adults Full Clinical Guideline (watch)
 
@@ -175,6 +212,7 @@ Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congre
 
 | Date | Result |
 |---|---|
+| 2026-09-03 | WebSearch partial success (EGRESS_BLOCKED on direct fetches) — **⚠️ MAJOR: CY2027 MPFS proposed rule (CMS-1848-P, FR 2026-14327) confirmed released Jul 16 2026 — 6 new HST replacement codes proposed, comment deadline Sep 14 2026 (11 days). NEW: OIG PAP report ($15.2M improper payments, 12.5% CPAP error rate). H.R. 8261 still in committee. AASM scoring manual still v3. CY2024 (RY26) D24 data not confirmed.** |
 | 2026-06-29 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) D24_Prov_Svc not confirmed; CY2027 MPFS proposed rule confirmed not yet released (~mid-July 2026, ~2 weeks out); AASM scoring manual still v3 (2023), no new 2026 guidelines; no new CMS FR sleep apnea rules. All prior findings unchanged. |
 | 2026-06-28 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) D24_Prov_Svc not confirmed (dataset last updated May 21, 2026); CY2027 MPFS proposed rule confirmed not yet released (~mid-July 2026); AASM no new guidelines; no new CMS FR sleep apnea rules. All prior findings unchanged. |
 | 2026-06-27 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) D24_Prov_Svc not confirmed; CY2027 MPFS proposed rule confirmed not yet released (~mid-July 2026); AASM no new guidelines; no new CMS FR sleep apnea rules. All prior findings unchanged. |
@@ -239,8 +277,10 @@ Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congre
 | Task | Finding | Action Required |
 |---|---|---|
 | CMS 2024 Provider-Service data | **⚠️ MUP_PHY_R25 CSV confirmed (`D23_Prov_Svc.csv`) — CY2023 data available; CY2024 not yet released** | **Yes — download and run filter_ccm.py for CY2023 data** |
-| AASM guidelines | **⚠️ NEW (Apr 2026): insomnia combo therapy guideline; + 3 prior 2025 guidelines** | **Yes — review April 2026 guideline for CCM documentation impact** |
-| Federal Register sleep rules | **⚠️ NEW (Jun 25): WISeR Model — HNS prior auth for OSA in 6 states (eff. Jan 15 2026); FDA device classification April 2026 (non-billing)** | **If in NJ/OH/OK/TX/AZ/WA: verify HNS PA workflow** |
-| MPFS — code deletions | **95800, 95801, 95806 deleted Jan 1, 2027** | **URGENT — begin transition** |
-| MPFS — rate changes | CCM up ~10%; sleep codes −2.5%; facility labs −7% indirect PE | Yes — update fee schedules |
-| **⚠️ CCM Improvement Act (H.R. 8261)** | **NEW (Jun 22): Bipartisan bill to eliminate 20% patient cost-sharing for CCM — in committee** | **Monitor — if passed, model for enrollment surge** |
+| AASM guidelines | **⚠️ NEW (Apr 2026): insomnia combo therapy guideline; + 3 prior 2025 guidelines; scoring manual still v3** | **Yes — review April 2026 guideline for CCM documentation impact** |
+| Federal Register / OIG | **⚠️ WISeR Model HNS prior auth (6 states, eff. Jan 15 2026); NEW (Sep 3): OIG PAP report — $15.2M improper payments, 12.5% error rate** | **Audit PAP documentation; verify HNS PA if in NJ/OH/OK/TX/AZ/WA** |
+| **🚨 MPFS CY2027 proposed rule** | **NEW (Sep 3): CMS-1848-P released Jul 16 2026 — 6 new HST codes replacing 95800/95801/95806** | **URGENT — Comment deadline Sep 14, 2026 (11 days). Submit via regulations.gov.** |
+| MPFS — code deletions | **95800, 95801, 95806 deleted Jan 1, 2027; 6 replacement codes proposed** | **URGENT — monitor final rule Oct 2026 for new code RVUs** |
+| MPFS — CY2027 rates | CY2027 conversion factor: +0.75% APM / +0.25% non-APM (proposed) | Update fee schedules once final rule published Oct 2026 |
+| MPFS — CY2026 rates | CCM up ~10%; sleep codes −2.5%; facility labs −7% indirect PE | Already in effect — update fee schedules if not done |
+| **⚠️ CCM Improvement Act (H.R. 8261)** | Bipartisan bill to eliminate 20% patient cost-sharing for CCM — still in committee Sep 2026 | **Monitor — if passed, model for enrollment surge** |
