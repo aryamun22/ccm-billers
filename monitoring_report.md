@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-09-04  
-**Latest run:** 2026-09-04 UTC — No new findings. **⚠️ REMINDER: CY2027 MPFS comment deadline September 14 2026 — 10 days away.** Prior major findings still active: CMS-1848-P (6 new HST codes replacing 95800/95801/95806); OIG PAP report ($15.2M improper payments). CY2024 (RY26) D24_Prov_Svc still not confirmed. AASM scoring manual still v3. H.R. 8261 still in committee. WebSearch partial success (direct fetches blocked by proxy).  
+**Last successful run:** 2026-09-05  
+**Latest run:** 2026-09-05 UTC — **⚠️ NEW: CY2027 MPFS (CMS-1848-P) proposes eliminating third-party contracted RPM/RTM staffing and consolidating RPM codes into 4 new G-codes — comment deadline 9 days away (Sep 14).** CY2024 (RY26) D24_Prov_Svc not yet confirmed. AASM scoring manual still v3. H.R. 8261 still in committee. WebSearch partial success (direct fetches blocked by proxy).  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -169,6 +169,30 @@ Endorsed by: AHA, AAMC, MGMA, AMGA (as of April 14, 2026).
 
 Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congress/house-bill/8261) — referred to committee; no floor vote scheduled yet.
 
+### 🚨 NEW (2026-09-05): CY2027 MPFS Proposed RPM/RTM Overhaul (CMS-1848-P)
+
+**Comment deadline: September 14, 2026 — 9 days away**
+
+CMS proposes **sweeping changes** to Remote Patient Monitoring (RPM) and Remote Therapeutic Monitoring (RTM) in the CY2027 MPFS:
+
+| Proposal | Current Rule | Proposed Change |
+|---|---|---|
+| Staffing | Third-party contracted monitoring companies allowed | **PROHIBITED — must be direct employees of billing practitioner** |
+| Initiating visit | Not required for new patients | **Required: established patient relationship + face-to-face visit** |
+| Billing codes | 99453, 99454, 99457, 99458 + RTM codes | **May be consolidated into 4 new G-codes (all existing codes eliminated)** |
+| Practice expense | Current PE RVUs | Proposed reductions |
+| CCM/APCM | — | **UNAFFECTED — contracted staffing still allowed for CCM/APCM** |
+
+> **Action items — URGENT (deadline Sep 14):**
+> - If your practice uses a third-party RPM vendor (e.g., for 99454/99457), this proposal would prohibit that arrangement as of Jan 1, 2027. Review vendor contracts and staffing model now.
+> - If finalized, codes 99453, 99454, 99457, 99458 may be replaced by G-codes — ccm-billers code mapping would require update.
+> - Submit comments via regulations.gov (CMS-1848-P) opposing or supporting specific provisions.
+> - **CCM (99490/99439) is explicitly unaffected** — contracted staffing permitted. No action required for CCM-only practices.
+
+Sources: [Newswire](https://www.newswire.com/news/cms-2027-proposed-rule-key-changes-to-rpm-rtm-and-medicare-care-22848994) · [Nixon Peabody](https://www.nixonpeabody.com/insights/alerts/2026/07/22/medicare-proposes-changes-to-remote-patient-monitoring-and-remote-therapeutic-monitoring-services) · [McDermott+](https://www.mcdermottplus.com/insights/remote-monitoring-at-a-crossroads-cms-proposes-sweeping-changes-in-response-to-oig-scrutiny/)
+
+---
+
 ### ⚠️ CY2027 MPFS Proposed Rule — RELEASED (CMS-1848-P)
 
 **Published:** July 16, 2026 (Federal Register doc 2026-14327)  
@@ -212,6 +236,7 @@ Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congre
 
 | Date | Result |
 |---|---|
+| 2026-09-05 | WebSearch partial success (direct fetches blocked 403) — **⚠️ NEW: CMS-1848-P proposes banning third-party contracted RPM/RTM staffing and consolidating 99453/99454/99457/99458 into 4 new G-codes. CCM/APCM unaffected. Comment deadline Sep 14 (9 days). No new CY2024 D24 data; AASM v3; H.R. 8261 in committee.** |
 | 2026-09-04 | WebSearch partial success (direct fetches blocked 403) — No new findings. Comment deadline for CY2027 MPFS (CMS-1848-P) now **10 days away** (Sep 14). All prior findings unchanged. |
 | 2026-09-03 | WebSearch partial success (EGRESS_BLOCKED on direct fetches) — **⚠️ MAJOR: CY2027 MPFS proposed rule (CMS-1848-P, FR 2026-14327) confirmed released Jul 16 2026 — 6 new HST replacement codes proposed, comment deadline Sep 14 2026 (11 days). NEW: OIG PAP report ($15.2M improper payments, 12.5% CPAP error rate). H.R. 8261 still in committee. AASM scoring manual still v3. CY2024 (RY26) D24 data not confirmed.** |
 | 2026-06-29 | WebSearch partial success (direct fetches blocked 403) — No new findings. CY2024 (RY26) D24_Prov_Svc not confirmed; CY2027 MPFS proposed rule confirmed not yet released (~mid-July 2026, ~2 weeks out); AASM scoring manual still v3 (2023), no new 2026 guidelines; no new CMS FR sleep apnea rules. All prior findings unchanged. |
@@ -280,7 +305,7 @@ Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congre
 | CMS 2024 Provider-Service data | **⚠️ MUP_PHY_R25 CSV confirmed (`D23_Prov_Svc.csv`) — CY2023 data available; CY2024 not yet released** | **Yes — download and run filter_ccm.py for CY2023 data** |
 | AASM guidelines | **⚠️ NEW (Apr 2026): insomnia combo therapy guideline; + 3 prior 2025 guidelines; scoring manual still v3** | **Yes — review April 2026 guideline for CCM documentation impact** |
 | Federal Register / OIG | **⚠️ WISeR Model HNS prior auth (6 states, eff. Jan 15 2026); NEW (Sep 3): OIG PAP report — $15.2M improper payments, 12.5% error rate** | **Audit PAP documentation; verify HNS PA if in NJ/OH/OK/TX/AZ/WA** |
-| **🚨 MPFS CY2027 proposed rule** | CMS-1848-P released Jul 16 2026 — 6 new HST codes replacing 95800/95801/95806 | **URGENT — Comment deadline Sep 14, 2026 (10 days). Submit via regulations.gov.** |
+| **🚨 MPFS CY2027 proposed rule** | CMS-1848-P released Jul 16 2026 — 6 new HST codes + **⚠️ NEW: RPM overhaul banning 3rd-party vendors, consolidating codes into G-codes** | **URGENT — Comment deadline Sep 14, 2026 (9 days). Submit via regulations.gov.** |
 | MPFS — code deletions | **95800, 95801, 95806 deleted Jan 1, 2027; 6 replacement codes proposed** | **URGENT — monitor final rule Oct 2026 for new code RVUs** |
 | MPFS — CY2027 rates | CY2027 conversion factor: +0.75% APM / +0.25% non-APM (proposed) | Update fee schedules once final rule published Oct 2026 |
 | MPFS — CY2026 rates | CCM up ~10%; sleep codes −2.5%; facility labs −7% indirect PE | Already in effect — update fee schedules if not done |
