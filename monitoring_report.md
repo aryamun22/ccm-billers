@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-09-05  
-**Latest run:** 2026-09-05 UTC — **⚠️ NEW: CY2027 MPFS (CMS-1848-P) proposes eliminating third-party contracted RPM/RTM staffing and consolidating RPM codes into 4 new G-codes — comment deadline 9 days away (Sep 14).** CY2024 (RY26) D24_Prov_Svc not yet confirmed. AASM scoring manual still v3. H.R. 8261 still in committee. WebSearch partial success (direct fetches blocked by proxy).  
+**Last successful run:** 2026-09-06  
+**Latest run:** 2026-09-06 UTC — **🚨 NEW: CY2024 (RY26) D24_Prov_Svc dataset CONFIRMED RELEASED (9,781,673 rows, distributed 2024-12-01) — action required: download and run filter_ccm.py.** CMS-1848-P comment deadline now 8 days away (Sep 14). AASM scoring manual still v3. H.R. 8261 still in committee. WebSearch partial success (direct fetches blocked by proxy).  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -29,11 +29,11 @@ Prior finding also stands: data dictionary PDF `MUP_PHY_RY25_20250312_DD_PRV_SVC
 | MUP_PHY_RY25 data dictionary (March 2025) | **Confirmed — post-baseline** |
 | `MUP_PHY_R25_P05_V20_D23_Prov_Svc.csv` | **Confirmed filename — download pending** |
 | Data year covered by RY25 | **CY2023 claims** |
-| CY2024 data (RY26) | **Not yet released — 2026-06-09 explicit D24 search returned no results. Continue monitoring.** |
+| CY2024 data (RY26) | **🚨 CONFIRMED RELEASED — distribution labeled 2024-12-01, ~9.78M rows, released ~May 21 2026** |
 
-> **Action item — IMMEDIATE:** Visit the dataset page and check for a distribution dated after 2023-12-31:  
+> **Action item — IMMEDIATE:** CY2024 (RY26) data is now confirmed available. Download from:  
 > https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service  
-> If a 2024 or 2025 distribution exists, download and run `filter_ccm.py`. The RY25 data (CY2023 claims) may already be available.
+> Run `filter_ccm.py` to update the CCM-biller dataset with 2024 claims data.
 
 ---
 
@@ -236,6 +236,7 @@ Sources: [Newswire](https://www.newswire.com/news/cms-2027-proposed-rule-key-cha
 
 | Date | Result |
 |---|---|
+| 2026-09-06 | WebSearch partial success (direct fetches blocked 403) — **🚨 NEW: CY2024 (RY26) D24_Prov_Svc dataset CONFIRMED RELEASED (9,781,673 rows, 2024-12-01 distribution). Download and run filter_ccm.py. CMS-1848-P comment deadline Sep 14 (8 days). AASM v3. H.R. 8261 in committee.** |
 | 2026-09-05 | WebSearch partial success (direct fetches blocked 403) — **⚠️ NEW: CMS-1848-P proposes banning third-party contracted RPM/RTM staffing and consolidating 99453/99454/99457/99458 into 4 new G-codes. CCM/APCM unaffected. Comment deadline Sep 14 (9 days). No new CY2024 D24 data; AASM v3; H.R. 8261 in committee.** |
 | 2026-09-04 | WebSearch partial success (direct fetches blocked 403) — No new findings. Comment deadline for CY2027 MPFS (CMS-1848-P) now **10 days away** (Sep 14). All prior findings unchanged. |
 | 2026-09-03 | WebSearch partial success (EGRESS_BLOCKED on direct fetches) — **⚠️ MAJOR: CY2027 MPFS proposed rule (CMS-1848-P, FR 2026-14327) confirmed released Jul 16 2026 — 6 new HST replacement codes proposed, comment deadline Sep 14 2026 (11 days). NEW: OIG PAP report ($15.2M improper payments, 12.5% CPAP error rate). H.R. 8261 still in committee. AASM scoring manual still v3. CY2024 (RY26) D24 data not confirmed.** |
@@ -302,10 +303,10 @@ Sources: [Newswire](https://www.newswire.com/news/cms-2027-proposed-rule-key-cha
 
 | Task | Finding | Action Required |
 |---|---|---|
-| CMS 2024 Provider-Service data | **⚠️ MUP_PHY_R25 CSV confirmed (`D23_Prov_Svc.csv`) — CY2023 data available; CY2024 not yet released** | **Yes — download and run filter_ccm.py for CY2023 data** |
+| CMS 2024 Provider-Service data | **🚨 CY2024 (RY26) D24_Prov_Svc CONFIRMED RELEASED — 9,781,673 rows, distribution 2024-12-01, released ~May 21 2026** | **Yes — download NOW and run filter_ccm.py** |
 | AASM guidelines | **⚠️ NEW (Apr 2026): insomnia combo therapy guideline; + 3 prior 2025 guidelines; scoring manual still v3** | **Yes — review April 2026 guideline for CCM documentation impact** |
 | Federal Register / OIG | **⚠️ WISeR Model HNS prior auth (6 states, eff. Jan 15 2026); NEW (Sep 3): OIG PAP report — $15.2M improper payments, 12.5% error rate** | **Audit PAP documentation; verify HNS PA if in NJ/OH/OK/TX/AZ/WA** |
-| **🚨 MPFS CY2027 proposed rule** | CMS-1848-P released Jul 16 2026 — 6 new HST codes + **⚠️ NEW: RPM overhaul banning 3rd-party vendors, consolidating codes into G-codes** | **URGENT — Comment deadline Sep 14, 2026 (9 days). Submit via regulations.gov.** |
+| **🚨 MPFS CY2027 proposed rule** | CMS-1848-P released Jul 16 2026 — 6 new HST codes + RPM overhaul banning 3rd-party vendors, consolidating codes into G-codes | **URGENT — Comment deadline Sep 14, 2026 (8 days). Submit via regulations.gov.** |
 | MPFS — code deletions | **95800, 95801, 95806 deleted Jan 1, 2027; 6 replacement codes proposed** | **URGENT — monitor final rule Oct 2026 for new code RVUs** |
 | MPFS — CY2027 rates | CY2027 conversion factor: +0.75% APM / +0.25% non-APM (proposed) | Update fee schedules once final rule published Oct 2026 |
 | MPFS — CY2026 rates | CCM up ~10%; sleep codes −2.5%; facility labs −7% indirect PE | Already in effect — update fee schedules if not done |
