@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Last successful run:** 2026-09-06  
-**Latest run:** 2026-09-06 UTC — **🚨 NEW: CY2024 (RY26) D24_Prov_Svc dataset CONFIRMED RELEASED (9,781,673 rows, distributed 2024-12-01) — action required: download and run filter_ccm.py.** CMS-1848-P comment deadline now 8 days away (Sep 14). AASM scoring manual still v3. H.R. 8261 still in committee. WebSearch partial success (direct fetches blocked by proxy).  
+**Last successful run:** 2026-09-07  
+**Latest run:** 2026-09-07 UTC — No new findings. All prior findings unchanged. CMS-1848-P comment deadline now **7 days away (Sep 14)**. CY2024 (RY26) D24_Prov_Svc download still pending. AASM scoring manual still v3. H.R. 8261 still in committee. WebSearch partial success (direct fetches blocked by proxy).  
 **Checked by:** CMS Data Monitor (automated)  
 **Baseline:** Provider-and-Service data newest distribution = 2023-12-31
 
@@ -171,7 +171,7 @@ Bill status: [Congress.gov H.R. 8261](https://www.congress.gov/bill/119th-congre
 
 ### 🚨 NEW (2026-09-05): CY2027 MPFS Proposed RPM/RTM Overhaul (CMS-1848-P)
 
-**Comment deadline: September 14, 2026 — 9 days away**
+**Comment deadline: September 14, 2026 — 7 days away**
 
 CMS proposes **sweeping changes** to Remote Patient Monitoring (RPM) and Remote Therapeutic Monitoring (RTM) in the CY2027 MPFS:
 
@@ -196,7 +196,7 @@ Sources: [Newswire](https://www.newswire.com/news/cms-2027-proposed-rule-key-cha
 ### ⚠️ CY2027 MPFS Proposed Rule — RELEASED (CMS-1848-P)
 
 **Published:** July 16, 2026 (Federal Register doc 2026-14327)  
-**Comment deadline: September 14, 2026 — 10 days from this report**  
+**Comment deadline: September 14, 2026 — 7 days from this report**  
 **AASM analysis:** https://aasm.org/cms-releases-2027-physician-fee-schedule-proposed-rule-key-takeaways-for-sleep-medicine/  
 **CMS fact sheet:** https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2027-medicare-physician-fee-schedule-proposed-rule
 
@@ -236,6 +236,7 @@ Sources: [Newswire](https://www.newswire.com/news/cms-2027-proposed-rule-key-cha
 
 | Date | Result |
 |---|---|
+| 2026-09-07 | WebSearch partial success (direct fetches blocked 403) — No new findings. All prior findings unchanged. CMS-1848-P comment deadline Sep 14 (**7 days**). CY2024 D24 download still pending. AASM v3. H.R. 8261 in committee. |
 | 2026-09-06 | WebSearch partial success (direct fetches blocked 403) — **🚨 NEW: CY2024 (RY26) D24_Prov_Svc dataset CONFIRMED RELEASED (9,781,673 rows, 2024-12-01 distribution). Download and run filter_ccm.py. CMS-1848-P comment deadline Sep 14 (8 days). AASM v3. H.R. 8261 in committee.** |
 | 2026-09-05 | WebSearch partial success (direct fetches blocked 403) — **⚠️ NEW: CMS-1848-P proposes banning third-party contracted RPM/RTM staffing and consolidating 99453/99454/99457/99458 into 4 new G-codes. CCM/APCM unaffected. Comment deadline Sep 14 (9 days). No new CY2024 D24 data; AASM v3; H.R. 8261 in committee.** |
 | 2026-09-04 | WebSearch partial success (direct fetches blocked 403) — No new findings. Comment deadline for CY2027 MPFS (CMS-1848-P) now **10 days away** (Sep 14). All prior findings unchanged. |
