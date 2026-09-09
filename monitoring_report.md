@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Run date/time:** 2026-09-08 10:04:56 UTC  
-**Status:** BLOCKED — network egress policy prevents external HTTP access
+**Run date/time:** 2026-09-09 (automated scheduled run)  
+**Status:** BLOCKED — network egress policy prevents external HTTP access (recurring issue since 2026-09-08)
 
 ---
 
@@ -9,7 +9,8 @@
 - **Result:** BLOCKED  
 - `data.cms.gov` is blocked by the environment's network egress proxy  
 - Cannot determine whether a 2024 distribution is available  
-- **Action:** Run this check from a machine with unrestricted outbound access, or add `data.cms.gov` to the egress allowlist in the Claude Code remote environment config
+- **Last known state (2026-09-06):** CY2024 (RY26) D24_Prov_Svc dataset was confirmed released  
+- **Action:** Run `filter_ccm.py` from a machine with unrestricted outbound access to pull the 2024 data
 
 ## Task 2: AASM Practice Standards / Scoring Manual Updates
 - **Result:** BLOCKED  
@@ -24,15 +25,17 @@
 ## Task 4: MPFS Updates (CPT: 95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457)
 - **Result:** BLOCKED  
 - `www.federalregister.gov` is blocked (same proxy restriction as Task 3)  
-- **Action:** Check 2027 proposed MPFS rule manually at https://www.federalregister.gov/documents/search?conditions[agencies][]=centers-for-medicare-medicaid-services&conditions[term]=physician+fee+schedule&conditions[publication_date][gte]=2026-01-01
+- **Last known state (2026-09-05):** CY2027 MPFS proposed rule included RPM/RTM overhaul  
+- **Action:** Check for any corrections or final rules at https://www.federalregister.gov/documents/search?conditions[agencies][]=centers-for-medicare-medicaid-services&conditions[term]=physician+fee+schedule&conditions[publication_date][gte]=2026-01-01
 
 ---
 
 ## Summary
-All monitoring checks failed due to network egress restrictions in the scheduled remote environment. No data was retrieved; no changes can be reported.
+All monitoring checks have been blocked by network egress restrictions for 2 consecutive days (2026-09-08 and 2026-09-09). The last successful run with new findings was 2026-09-06 (CY2024 dataset) and 2026-09-05 (MPFS rule).
 
-**Fix required:** The scheduled task needs either:
-1. Network egress allowlist updated to include `data.cms.gov`, `www.federalregister.gov`, and `aasm.org`, OR
-2. This task moved to run in an environment with broader outbound access
+**Fix required:** Update the Claude Code remote environment to allow egress to:
+- `data.cms.gov`
+- `www.federalregister.gov`
+- `aasm.org`
 
-See environment docs: https://code.claude.com/docs/en/claude-code-on-the-web
+See environment network policy docs: https://code.claude.com/docs/en/claude-code-on-the-web
