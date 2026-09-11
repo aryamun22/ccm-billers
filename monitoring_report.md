@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Run date/time:** 2026-09-10 (automated scheduled run)  
-**Status:** BLOCKED — network egress policy prevents external HTTP access (recurring issue, 3rd consecutive day: 2026-09-08, 2026-09-09, 2026-09-10)
+**Run date/time:** 2026-09-11 10:04 UTC (automated scheduled run)  
+**Status:** BLOCKED — network egress policy prevents external HTTP access (**4th consecutive day:** 2026-09-08 through 2026-09-11)
 
 ---
 
@@ -31,7 +31,7 @@
 ---
 
 ## Summary
-All monitoring checks have been blocked by network egress restrictions for **3 consecutive days** (2026-09-08, 2026-09-09, 2026-09-10). The last successful run with new findings was 2026-09-06 (CY2024 dataset) and 2026-09-05 (MPFS rule).
+All monitoring checks have been blocked by network egress restrictions for **4 consecutive days** (2026-09-08 through 2026-09-11). Last successful run with new findings: 2026-09-06 (CY2024 dataset) and 2026-09-05 (MPFS rule).
 
 **Fix required:** Update the Claude Code remote environment network policy to allow egress to:
 - `data.cms.gov`
