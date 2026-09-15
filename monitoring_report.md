@@ -1,6 +1,7 @@
 # CMS Data Monitor Report
 
-**Run date/time:** 2026-09-14 10:04:58 UTC
+**Run date/time:** 2026-09-15 10:03:27 UTC
+**Consecutive days network blocked: 8** (since 2026-09-08)
 
 ---
 
@@ -9,8 +10,9 @@
 **Status: BLOCKED — network egress proxy denied access to `data.cms.gov`**
 
 - Current latest in repo: 2023-12-31
-- Could not check for 2024 release
-- **Action item:** Run manually: `curl "https://data.cms.gov/data.json" | python3 -c "import json,sys; [print(json.dumps(ds,indent=2)) for ds in json.load(sys.stdin).get('dataset',[]) if 'by Provider and Service' in ds.get('title','')]"` — if a 2024 distribution exists, run `filter_ccm.py` to update.
+- ⚠️ NOTE: The 2026-09-07 run confirmed CY2024 (RY26) D24_Prov_Svc dataset was released — however the download has not been run since the network went down.
+- Could not re-verify or retrieve that release
+- **Action item:** Run `filter_ccm.py` against the 2024 dataset — download URL was confirmed on 2026-09-07. Check that commit for the URL.
 
 ---
 
@@ -37,8 +39,8 @@
 **Status: BLOCKED — network egress proxy denied access to `www.federalregister.gov`**
 
 - CPT codes of interest: 95810, 95811, 95806, G0399 (sleep studies); 99490, 99439, 99487, 99491 (CCM); 99453, 99454, 99457 (RPM)
-- CY 2027 MPFS Proposed Rule is typically published in July — check for it at https://www.federalregister.gov/agencies/centers-for-medicare-medicaid-services
-- **Action item:** Search Federal Register manually for "physician fee schedule 2027" to confirm if the proposed rule is out.
+- ⚠️ NOTE: The 2026-09-05 run found the CY2027 MPFS proposed rule includes an RPM/RTM overhaul — this has not been re-verified since the network went down.
+- **Action item:** Search Federal Register manually for "physician fee schedule 2027" to confirm current status of the proposed rule and any CPT code changes.
 
 ---
 
@@ -46,11 +48,20 @@
 
 | Task | Result |
 |------|--------|
-| CMS Provider-and-Service 2024 data | ❌ Egress blocked |
-| AASM guideline updates 2026 | ❌ Egress blocked |
-| Federal Register sleep apnea rules 2026 | ❌ Egress blocked |
-| MPFS CPT code updates | ❌ Egress blocked |
+| CMS Provider-and-Service 2024 data | ❌ Egress blocked (day 8) |
+| AASM guideline updates 2026 | ❌ Egress blocked (day 8) |
+| Federal Register sleep apnea rules 2026 | ❌ Egress blocked (day 8) |
+| MPFS CPT code updates | ❌ Egress blocked (day 8) |
 
-**Root cause:** The scheduled monitoring environment's network egress proxy blocks all four target domains (`data.cms.gov`, `aasm.org`, `www.federalregister.gov`). No data comparisons were possible.
+**Root cause:** The scheduled monitoring environment's network egress proxy (`selective: false`) blocks all four target domains (`data.cms.gov`, `aasm.org`, `www.federalregister.gov`). This has persisted for 8 consecutive days.
 
-**Recommended fix:** Either (a) configure the proxy allowlist to permit these domains, or (b) run the monitoring script locally where internet access is unrestricted. See `/root/.ccr/README.md` for proxy configuration.
+**Recommended fix:** In the Claude Code web session configuration, enable outbound access to these domains:
+- `data.cms.gov`
+- `www.federalregister.gov`
+- `aasm.org`
+
+See the [Claude Code on the web docs](https://code.claude.com/docs/en/claude-code-on-the-web) for environment network policy configuration. Until then, all four monitoring tasks must be run manually.
+
+**Pending actions from last successful runs:**
+1. (from 2026-09-07) CY2024 D24_Prov_Svc dataset confirmed released — run `filter_ccm.py` to ingest
+2. (from 2026-09-05) CY2027 MPFS proposed rule includes RPM/RTM overhaul — review CPT impact on 99453/99454/99457
