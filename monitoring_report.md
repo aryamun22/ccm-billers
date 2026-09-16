@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Run date/time:** 2026-09-15 10:03:27 UTC
-**Consecutive days network blocked: 8** (since 2026-09-08)
+**Run date/time:** 2026-09-16 10:03 UTC
+**Consecutive days network blocked: 9** (since 2026-09-08)
 
 ---
 
@@ -48,12 +48,12 @@
 
 | Task | Result |
 |------|--------|
-| CMS Provider-and-Service 2024 data | ❌ Egress blocked (day 8) |
-| AASM guideline updates 2026 | ❌ Egress blocked (day 8) |
-| Federal Register sleep apnea rules 2026 | ❌ Egress blocked (day 8) |
-| MPFS CPT code updates | ❌ Egress blocked (day 8) |
+| CMS Provider-and-Service 2024 data | ❌ Egress blocked (day 9) |
+| AASM guideline updates 2026 | ❌ Egress blocked (day 9) |
+| Federal Register sleep apnea rules 2026 | ❌ Egress blocked (day 9) |
+| MPFS CPT code updates | ❌ Egress blocked (day 9) |
 
-**Root cause:** The scheduled monitoring environment's network egress proxy (`selective: false`) blocks all four target domains (`data.cms.gov`, `aasm.org`, `www.federalregister.gov`). This has persisted for 8 consecutive days.
+**Root cause:** The scheduled monitoring environment's network egress proxy (`selective: false`) blocks all four target domains (`data.cms.gov`, `aasm.org`, `www.federalregister.gov`). This has persisted for 9 consecutive days.
 
 **Recommended fix:** In the Claude Code web session configuration, enable outbound access to these domains:
 - `data.cms.gov`
