@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Run date/time:** 2026-09-16 10:03 UTC
-**Consecutive days network blocked: 9** (since 2026-09-08)
+**Run date/time:** 2026-09-17 (automated daily run)
+**Consecutive days network blocked: 10** (since 2026-09-08)
 
 ---
 
@@ -38,30 +38,24 @@
 
 **Status: BLOCKED — network egress proxy denied access to `www.federalregister.gov`**
 
-- CPT codes of interest: 95810, 95811, 95806, G0399 (sleep studies); 99490, 99439, 99487, 99491 (CCM); 99453, 99454, 99457 (RPM)
-- ⚠️ NOTE: The 2026-09-05 run found the CY2027 MPFS proposed rule includes an RPM/RTM overhaul — this has not been re-verified since the network went down.
-- **Action item:** Search Federal Register manually for "physician fee schedule 2027" to confirm current status of the proposed rule and any CPT code changes.
+- Could not check for 2027 MPFS proposed rule or 2026 MPFS corrections
+- Codes of interest: 95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457
+- **Action item:** Check https://www.federalregister.gov manually for the 2027 MPFS Proposed Rule (typically released July–August each year)
 
 ---
 
 ## Summary
 
-| Task | Result |
-|------|--------|
-| CMS Provider-and-Service 2024 data | ❌ Egress blocked (day 9) |
-| AASM guideline updates 2026 | ❌ Egress blocked (day 9) |
-| Federal Register sleep apnea rules 2026 | ❌ Egress blocked (day 9) |
-| MPFS CPT code updates | ❌ Egress blocked (day 9) |
+All four tasks blocked for **10 consecutive days** by the session's network egress policy.
 
-**Root cause:** The scheduled monitoring environment's network egress proxy (`selective: false`) blocks all four target domains (`data.cms.gov`, `aasm.org`, `www.federalregister.gov`). This has persisted for 9 consecutive days.
+| Blocked Host | Task |
+|---|---|
+| data.cms.gov | CMS 2024 provider/service data |
+| aasm.org | AASM scoring manual updates |
+| www.federalregister.gov | Sleep apnea rules + MPFS updates |
 
-**Recommended fix:** In the Claude Code web session configuration, enable outbound access to these domains:
-- `data.cms.gov`
-- `www.federalregister.gov`
-- `aasm.org`
+**This monitoring schedule requires outbound access to government and medical association sites.** To resolve:
+1. Reconfigure the Claude Code on the web environment to allow `data.cms.gov`, `www.federalregister.gov`, and `aasm.org` in the egress policy.
+2. Or run the checks locally where those sites are accessible.
 
-See the [Claude Code on the web docs](https://code.claude.com/docs/en/claude-code-on-the-web) for environment network policy configuration. Until then, all four monitoring tasks must be run manually.
-
-**Pending actions from last successful runs:**
-1. (from 2026-09-07) CY2024 D24_Prov_Svc dataset confirmed released — run `filter_ccm.py` to ingest
-2. (from 2026-09-05) CY2027 MPFS proposed rule includes RPM/RTM overhaul — review CPT impact on 99453/99454/99457
+The 2024 CMS dataset found on 2026-09-07 still needs to be downloaded and processed — this is the highest-priority pending action.
