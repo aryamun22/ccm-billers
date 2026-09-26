@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Run date/time:** 2026-09-23 10:02 UTC (automated daily run)
-**Consecutive days network blocked: 16** (since 2026-09-08)
+**Run date/time:** 2026-09-26 (automated daily run)
+**Consecutive days network blocked: 19** (since 2026-09-08)
 
 ---
 
@@ -10,9 +10,8 @@
 **Status: BLOCKED — network egress proxy denied access to `data.cms.gov`**
 
 - Current latest in repo: 2023-12-31
-- ⚠️ NOTE: The 2026-09-07 run confirmed CY2024 (RY26) D24_Prov_Svc dataset was released — however the download has not been run since the network went down.
-- Could not re-verify or retrieve that release
-- **Action item:** Run `filter_ccm.py` against the 2024 dataset — download URL was confirmed on 2026-09-07. Check that commit for the URL.
+- ⚠️ NOTE: The 2026-09-07 run confirmed CY2024 (RY26) D24_Prov_Svc dataset was released — download has not been run since the network went down.
+- **Action item (HIGH PRIORITY):** Run `filter_ccm.py` against the 2024 dataset. Download URL was confirmed on 2026-09-07 — check that commit for the URL.
 
 ---
 
@@ -46,7 +45,7 @@
 
 ## Summary
 
-All four tasks blocked for **16 consecutive days** by the session's network egress policy.
+All four tasks blocked for **19 consecutive days** by the session's network egress policy.
 
 | Blocked Host | Task |
 |---|---|
