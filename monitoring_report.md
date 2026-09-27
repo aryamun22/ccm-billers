@@ -1,60 +1,36 @@
-# CMS Data Monitor Report
+# CMS Data Monitoring Report
 
-**Run date/time:** 2026-09-26 (automated daily run)
-**Consecutive days network blocked: 19** (since 2026-09-08)
-
----
-
-## Task 1: CMS Provider-and-Service Data (Medicare Physician & Other Practitioners)
-
-**Status: BLOCKED — network egress proxy denied access to `data.cms.gov`**
-
-- Current latest in repo: 2023-12-31
-- ⚠️ NOTE: The 2026-09-07 run confirmed CY2024 (RY26) D24_Prov_Svc dataset was released — download has not been run since the network went down.
-- **Action item (HIGH PRIORITY):** Run `filter_ccm.py` against the 2024 dataset. Download URL was confirmed on 2026-09-07 — check that commit for the URL.
+**Date/Time:** 2026-09-27 10:01 UTC  
+**Status:** BLOCKED — Network egress policy prevents all external fetches (day 20+)
 
 ---
 
-## Task 2: AASM Scoring Manual / Practice Parameters
+## Task 1: CMS Provider-and-Service Data (2024 release check)
+- **Result:** FETCH FAILED
+- **Error:** `curl: (56) CONNECT tunnel failed, response 403` — proxy blocks `data.cms.gov`
+- **Action needed:** Cannot verify whether 2024 data is available. Run manually from a machine with internet access:  
+  `curl "https://data.cms.gov/data.json" | python3 -c "import sys,json; [print(d['title'], d.get('modified','')) for d in json.load(sys.stdin)['dataset'] if 'Provider and Service' in d.get('title','')]"`
 
-**Status: BLOCKED — network egress proxy denied access to `aasm.org`**
-
-- Could not check for 2026 updates
-- **Action item:** Visit https://aasm.org/clinical-resources/practice-standards/ manually and check for 2026-dated documents.
-
----
+## Task 2: AASM Scoring Manual / Guideline Updates
+- **Result:** FETCH FAILED
+- **Error:** Proxy blocks `aasm.org`
+- **Action needed:** Check https://aasm.org/clinical-resources/practice-standards/ manually for any 2026 publications.
 
 ## Task 3: CMS Federal Register — Sleep Apnea Rules (2026)
-
-**Status: BLOCKED — network egress proxy denied access to `www.federalregister.gov`**
-
-- Could not query for CMS sleep apnea proposed/final rules published ≥ 2026-01-01
-- **Action item:** Check manually: https://www.federalregister.gov/agencies/centers-for-medicare-medicaid-services (filter by date and keyword "sleep apnea")
-
----
+- **Result:** FETCH FAILED
+- **Error:** Proxy blocks `www.federalregister.gov`
+- **Action needed:** Check manually:  
+  `https://www.federalregister.gov/documents/search?conditions[agencies][]=centers-for-medicare-medicaid-services&conditions[term]=sleep+apnea&conditions[publication_date][gte]=2026-01-01`
 
 ## Task 4: MPFS Updates — Sleep/CCM CPT Codes
-
-**Status: BLOCKED — network egress proxy denied access to `www.federalregister.gov`**
-
-- Could not check for 2027 MPFS proposed rule or 2026 MPFS corrections
-- Codes of interest: 95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457
-- **Action item:** Check https://www.federalregister.gov manually for the 2027 MPFS Proposed Rule (typically released July–August each year)
+- **Result:** FETCH FAILED
+- **Error:** Same proxy block as Task 3
+- **Codes of interest:** 95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457
+- **Action needed:** Check for 2027 MPFS proposed rule or 2026 MPFS corrections at federalregister.gov manually.
 
 ---
 
 ## Summary
-
-All four tasks blocked for **19 consecutive days** by the session's network egress policy.
-
-| Blocked Host | Task |
-|---|---|
-| data.cms.gov | CMS 2024 provider/service data |
-| aasm.org | AASM scoring manual updates |
-| www.federalregister.gov | Sleep apnea rules + MPFS updates |
-
-**This monitoring schedule requires outbound access to government and medical association sites.** To resolve:
-1. Reconfigure the Claude Code on the web environment to allow `data.cms.gov`, `www.federalregister.gov`, and `aasm.org` in the egress policy.
-2. Or run the checks locally where those sites are accessible.
-
-The 2024 CMS dataset found on 2026-09-07 still needs to be downloaded and processed — this is the highest-priority pending action.
+**No changes detected** — all checks failed due to network egress restrictions.  
+This monitoring job has been blocked for 20+ consecutive days.  
+**Recommend:** Configure the cloud environment's network policy to allow outbound HTTPS to `data.cms.gov`, `aasm.org`, and `www.federalregister.gov`, or migrate monitoring to a machine/CI environment with unrestricted egress.
