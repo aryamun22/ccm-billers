@@ -1,7 +1,7 @@
 # CMS Data Monitor Report
 
-**Run date/time:** 2026-09-28 10:01:44 UTC  
-**Status:** ERROR — Network egress blocked
+**Run date/time:** 2026-09-29 10:00:00 UTC  
+**Status:** ERROR — Network egress blocked (recurring)
 
 ---
 
@@ -43,6 +43,6 @@
 | Federal Register — sleep apnea rules | BLOCKED |
 | MPFS CPT code updates | BLOCKED |
 
-**Root cause:** The remote execution environment's network egress proxy is blocking all four required external domains (`data.cms.gov`, `aasm.org`, `www.federalregister.gov`). No data could be retrieved.
+**Root cause:** The remote execution environment's network egress proxy is blocking all four required external domains (`data.cms.gov`, `aasm.org`, `www.federalregister.gov`). This has persisted since at least 2026-09-28.
 
 **Recommended action:** Whitelist these domains in the environment's network policy, or run this monitor from an environment with unrestricted HTTPS egress. See https://code.claude.com/docs/en/claude-code-on-the-web for environment configuration.
