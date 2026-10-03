@@ -1,14 +1,14 @@
 # CMS Data Monitoring Report
 
-**Date:** 2026-10-02 10:02 UTC  
-**Status:** BLOCKED — network egress proxy prevented all external fetches (same as yesterday)
+**Date:** 2026-10-03 (UTC)  
+**Status:** BLOCKED — network egress proxy prevented all external fetches (recurring issue, also failed 2026-10-02)
 
 ---
 
 ## Task 1: CMS Provider-and-Service Data (Medicare Physician & Other Practitioners)
 
 **Result:** ERROR — `data.cms.gov` is blocked by the network egress proxy.  
-**Action needed:** Run this check from a machine with unrestricted outbound HTTPS, or whitelist `data.cms.gov` in the environment's egress policy.
+**Action needed:** Whitelist `data.cms.gov` in the environment's egress policy, or run from a machine with unrestricted outbound HTTPS.
 
 *Baseline:* Latest known distribution is ≤ 2023-12-31. No update status determined.
 
@@ -46,8 +46,11 @@
 | Federal Register sleep apnea rules | BLOCKED |
 | MPFS CPT code updates | BLOCKED |
 
-**Root cause:** This Claude Code remote execution environment does not permit outbound HTTPS to `data.cms.gov`, `aasm.org`, or `www.federalregister.gov`. All four monitoring tasks failed at the network level.
+**Root cause:** This Claude Code remote execution environment does not permit outbound HTTPS to `data.cms.gov`, `aasm.org`, or `www.federalregister.gov`. All four monitoring tasks have failed at the network level since at least 2026-10-02.
 
-**Recommended fix:** Update the environment's network egress policy to allow access to these domains, or run this scheduled task from an environment with unrestricted outbound access.
+**Recommended fix:** Update the environment's network egress policy to allow these domains. In the Claude Code web UI, go to your environment settings and add the following to the allowed egress domains:
+- `data.cms.gov`
+- `aasm.org`
+- `www.federalregister.gov`
 
 No data was retrieved; no action items can be determined this run.
