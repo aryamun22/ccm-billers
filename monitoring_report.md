@@ -1,56 +1,92 @@
-# CMS Data Monitoring Report
-
-**Date:** 2026-10-03 (UTC)  
-**Status:** BLOCKED — network egress proxy prevented all external fetches (recurring issue, also failed 2026-10-02)
+# CMS Data Monitor Report
+**Run:** 2026-10-04 10:01 UTC
 
 ---
 
-## Task 1: CMS Provider-and-Service Data (Medicare Physician & Other Practitioners)
+## Task 1 — CMS Provider-and-Service Dataset
 
-**Result:** ERROR — `data.cms.gov` is blocked by the network egress proxy.  
-**Action needed:** Whitelist `data.cms.gov` in the environment's egress policy, or run from a machine with unrestricted outbound HTTPS.
+**Status: NEW DATA AVAILABLE**
 
-*Baseline:* Latest known distribution is ≤ 2023-12-31. No update status determined.
+A newer distribution exists beyond the current baseline (2023-12-31).
 
----
+- **RY25 release** (March 2025) covers calendar year 2023 claims — this is newer than the 2023-12-31 distribution on file.
+- Data dictionary: `MUP_PHY_RY25_20250312_DD_PRV_SVC_508.pdf`
+- Dataset page: https://catalog.data.gov/dataset/medicare-physician-other-practitioners-by-provider-and-service-23337
+- DRP mirror (if data.cms.gov is inaccessible): https://portal.datarescueproject.org/datasets/medicare-physician-other-practitioners---by-provider-and-service/
 
-## Task 2: AASM Scoring Manual / Guideline Updates
+> **Note:** `data.cms.gov` is blocked by the environment's egress proxy. URLs above are from catalog.data.gov and the Data Rescue Project mirror. Direct fetch of the full data.json was not possible; findings are based on web search results confirming the RY25 release.
 
-**Result:** ERROR — `aasm.org` is blocked by the network egress proxy.  
-**Action needed:** Whitelist `aasm.org` or check manually at https://aasm.org/clinical-resources/practice-standards/
-
----
-
-## Task 3: CMS Federal Register — Sleep Apnea Rules (2026)
-
-**Result:** ERROR — `www.federalregister.gov` is blocked by the network egress proxy.  
-**Action needed:** Whitelist `www.federalregister.gov` or check manually at:  
-`https://www.federalregister.gov/documents/search?conditions[agencies][]=centers-for-medicare-medicaid-services&conditions[term]=sleep+apnea&conditions[publication_date][gte]=2026-01-01`
+**Action item:** Run `filter_ccm.py` against the RY25 Provider & Service dataset to update analysis with 2023 claims data.
 
 ---
 
-## Task 4: MPFS Updates — Sleep/CCM CPT Codes
+## Task 2 — AASM Scoring Manual / Practice Parameters
 
-**CPT codes monitored:** 95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457  
-**Result:** ERROR — `www.federalregister.gov` is blocked by the network egress proxy.  
-**Action needed:** Same as Task 3 — whitelist the domain or check manually.
+**Status: No confirmed 2026 updates found**
+
+- No new scoring manual version or practice parameter specific to 2026 was identified in search results.
+- Most recent confirmed app update was version 2.0.1 (no specific 2026 date).
+- `aasm.org` is blocked by the egress proxy; page could not be fetched directly.
+
+> **Note:** Recommend manually checking https://aasm.org/clinical-resources/practice-standards/ for any 2026 releases not yet indexed in search results.
+
+---
+
+## Task 3 — Federal Register: CMS Sleep Apnea Rules (2026)
+
+**Status: Adjacent rules found; no dedicated sleep-apnea-specific rule**
+
+| Date | Type | Title |
+|------|------|-------|
+| 2025-10-31 | Final Rule | CY 2026 Medicare Physician Fee Schedule Final Rule (sleep-relevant: RVU valuation, telehealth, indirect PE methodology) |
+| 2026-04-14 | Proposed Rule | Interoperability Standards and Prior Authorization for Drugs (affects sleep medicine prior auth workflows) |
+
+- No standalone CMS proposed or final rule specifically targeting sleep apnea was identified for 2026.
+- Federal Register API (`federalregister.gov`) was blocked by egress proxy; results are from web search.
+
+**Action item:** None required at this time. Monitor for MPFS 2027 final rule (expected Nov 2026).
+
+---
+
+## Task 4 — 2027 MPFS Proposed Rule: Sleep / CCM Code Impact
+
+**Status: SIGNIFICANT CHANGES PROPOSED — action required**
+
+CMS released the **2027 Physician Fee Schedule proposed rule** on **July 14, 2026**. Comment deadline was **September 14, 2026** (AASM submitted comments September 30, 2026).
+
+### Sleep Testing Code Overhaul
+- **DELETED:** CPT codes 95800, 95801, and **95806** (HSAT codes) — effective Jan 1, 2027
+- **Replacement:** Six new codes **95X18–95X23** covering different complexity/channel levels
+- PSG codes **95810** and **95811** not specifically called out for deletion in available summaries — verify in full rule text
+
+### Payment Rates
+- Proposed conversion factor: **$32.84** (−1.68% decrease, non-AQPM)
+- AQPM conversion factor: **$33.17** (−1.19% decrease)
+
+### CCM Codes (99490, 99439, 99487, 99491, 99453, 99454, 99457)
+- No specific changes to CCM/RPM codes reported in available summaries for 2027 rule.
+
+**Sources:**
+- AASM summary: https://aasm.org/cms-releases-2027-physician-fee-schedule-proposed-rule-key-takeaways-for-sleep-medicine/
+- MN Medical Association summary: https://www.mnmed.org/news-and-publications/news/cms-releases-proposed-rule-2027-medicare-physician-fee-schedule
+- AAN summary PDF: https://www.aan.com/siteassets/home-page/tools-and-resources/practicing-neurologist--administrators/billing-and-coding/medicare-fee-for-service/27-mpfs-proposed-rule-summary.pdf
+
+**Action items:**
+1. Review full 2027 MPFS proposed rule for CPT 95810/95811 RVU changes.
+2. Update code mapping in this project to include new 95X18–95X23 codes before Jan 1, 2027.
+3. Confirm 95806 deletion — if used in filters, update `filter_ccm.py` and any code lists.
+4. Track final rule publication (expected ~November 2026).
 
 ---
 
 ## Summary
 
-| Task | Status |
-|------|--------|
-| CMS 2024 Provider/Service data | BLOCKED |
-| AASM guideline updates | BLOCKED |
-| Federal Register sleep apnea rules | BLOCKED |
-| MPFS CPT code updates | BLOCKED |
+| Task | Status | Action Needed |
+|------|--------|---------------|
+| CMS Provider & Service data | **NEW DATA (RY25/2023)** | Run filter_ccm.py |
+| AASM scoring manual | No confirmed 2026 changes | Manual check recommended |
+| Federal Register sleep apnea rules | No dedicated rule; MPFS final rule is key reference | Monitor for 2027 final rule |
+| 2027 MPFS proposed rule | **SIGNIFICANT — 95806 deleted, new HSAT codes** | Update code mappings before Jan 1, 2027 |
 
-**Root cause:** This Claude Code remote execution environment does not permit outbound HTTPS to `data.cms.gov`, `aasm.org`, or `www.federalregister.gov`. All four monitoring tasks have failed at the network level since at least 2026-10-02.
-
-**Recommended fix:** Update the environment's network egress policy to allow these domains. In the Claude Code web UI, go to your environment settings and add the following to the allowed egress domains:
-- `data.cms.gov`
-- `aasm.org`
-- `www.federalregister.gov`
-
-No data was retrieved; no action items can be determined this run.
+---
+*Generated by automated CMS Data Monitor. Egress proxy blocked direct access to data.cms.gov, aasm.org, and federalregister.gov; findings are based on web search results.*
