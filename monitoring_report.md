@@ -1,14 +1,14 @@
 # CMS Data Monitoring Report
 
-**Run date/time:** 2026-10-09 (automated daily run)
+**Run date/time:** 2026-10-10 (automated daily run)
 
-**Status: NO NEW CHANGES DETECTED — NETWORK ACCESS BLOCKED (3rd consecutive day)**
+**Status: NO NEW CHANGES DETECTED — NETWORK ACCESS BLOCKED (4th consecutive day)**
 
 ---
 
 ## Network Access
 
-All external domains blocked by egress policy (DNS resolution failure):
+All external domains blocked by egress policy (proxy returns 403 on CONNECT tunnel):
 - data.cms.gov
 - aasm.org
 - www.federalregister.gov
@@ -45,4 +45,4 @@ No new fetch possible. Last known state: CY 2027 proposed rule has CPT replaceme
 
 ---
 
-*Network has been blocked for 3 consecutive days (2026-10-07, 10-08, 10-09). Manual action required to unblock egress or run checks locally. See commit `721ecaa` for full 2026-10-07 findings.*
+*Network has been blocked for 4 consecutive days (2026-10-07 through 2026-10-10). Action items from 2026-10-07 remain unaddressed. To restore monitoring, unblock egress to data.cms.gov, aasm.org, and www.federalregister.gov, or run checks locally. See commit `721ecaa` for full 2026-10-07 findings.*
