@@ -1,48 +1,45 @@
 # CMS Data Monitoring Report
 
-**Run date/time:** 2026-10-12 (automated daily run)
+**Run date/time:** 2026-10-13 (automated daily run)
 
-**Status: NO NEW CHANGES DETECTED — NETWORK ACCESS BLOCKED (6th consecutive day)**
+**Status: NETWORK ACCESS BLOCKED — 7th consecutive day**
 
 ---
 
 ## Network Access
 
-All external domains blocked by egress policy (proxy returns 403 on CONNECT tunnel):
-- data.cms.gov
-- aasm.org
-- www.federalregister.gov
+All external HTTPS requests are blocked by the session's egress policy (HTTP 403 from proxy). This has occurred on every daily run since 2026-10-07. **No monitoring tasks have been able to execute.**
 
-No new data could be fetched. Findings below carry forward from the 2026-10-07 run (first successful fetch).
-
----
-
-## Outstanding Action Items (from 2026-10-07)
-
-| Priority | Action | Status |
-|----------|--------|--------|
-| **HIGH** | Download 2024 Provider & Service data from CMS portal and run `filter_ccm.py` | ⏳ Pending |
-| **HIGH** | Review CY 2027 MPFS proposed rule for new sleep codes 95X18/19/20 replacing 95800/95801 — update code mapping | ⏳ Pending |
-| **MEDIUM** | Review CCM code RVU changes (GACP1/GACP2, 0591T/0592T crosswalks) for billing impact | ⏳ Pending |
-| **LOW** | Verify AASM guidelines directly at aasm.org when egress access is available | ⏳ Pending |
+Blocked hosts:
+- `data.cms.gov` — CMS Provider & Service data check
+- `aasm.org` — AASM practice standards check
+- `www.federalregister.gov` — Federal Register rules check (sleep apnea + MPFS)
 
 ---
 
 ## Task Results
 
-### Task 1: CMS Medicare Provider & Service Data
-No new fetch possible. Last known state (2026-10-07): **2024 data released** on CMS portal.
-- Dataset: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service
+### 1. CMS Provider-and-Service Data (2024 release check)
+- **Status:** BLOCKED — could not reach data.cms.gov
+- Last known: 2023 data is current in repo
 
-### Task 2: AASM Scoring Manual / Practice Guidelines
-No new fetch possible. Last known state: No confirmed 2026 updates; Version 3 remains current.
+### 2. AASM Scoring Manual / Guideline Updates
+- **Status:** BLOCKED — could not reach aasm.org
 
-### Task 3: Federal Register — Sleep Apnea Rules (2026+)
-No new fetch possible. Last known state: CY 2027 MPFS Proposed Rule (doc 2026-14327, published 2026-07-16) contains new unattended sleep study codes (95X18/19/20).
+### 3. Federal Register — Sleep Apnea Proposed Rules (2026)
+- **Status:** BLOCKED — could not reach federalregister.gov
 
-### Task 4: MPFS Updates — Sleep / CCM Codes
-No new fetch possible. Last known state: CY 2027 proposed rule has CPT replacements for 95800/95801 and CCM crosswalk codes (GACP1/GACP2).
+### 4. MPFS Updates (CPT codes: 95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457)
+- **Status:** BLOCKED — could not reach federalregister.gov
 
 ---
 
-*Network has been blocked for 6 consecutive days (2026-10-07 through 2026-10-12). Action items from 2026-10-07 remain unaddressed. To restore monitoring, unblock egress to data.cms.gov, aasm.org, and www.federalregister.gov, or run checks locally. See commit `721ecaa` for full 2026-10-07 findings.*
+## Action Items
+
+> **ACTION REQUIRED:** The cloud session's network egress policy does not permit outbound HTTPS to data.cms.gov, aasm.org, or federalregister.gov. This monitor has been unable to run for 7 consecutive days (since 2026-10-07).
+>
+> To fix: when creating a new Claude Code cloud session, select a network policy that allows outbound HTTPS to external government and medical organization domains. See https://code.claude.com/docs/en/claude-code-on-the-web for environment configuration options.
+
+---
+
+*No changes detected — monitoring blocked.*
