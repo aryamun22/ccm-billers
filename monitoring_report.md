@@ -1,45 +1,51 @@
 # CMS Data Monitoring Report
 
-**Run date/time:** 2026-10-13 (automated daily run)
-
-**Status: NETWORK ACCESS BLOCKED — 7th consecutive day**
+**Run Date/Time:** 2026-10-14 10:01 UTC  
+**Status:** ⚠️ BLOCKED — All external data sources unreachable
 
 ---
 
-## Network Access
+## Summary
 
-All external HTTPS requests are blocked by the session's egress policy (HTTP 403 from proxy). This has occurred on every daily run since 2026-10-07. **No monitoring tasks have been able to execute.**
-
-Blocked hosts:
-- `data.cms.gov` — CMS Provider & Service data check
-- `aasm.org` — AASM practice standards check
-- `www.federalregister.gov` — Federal Register rules check (sleep apnea + MPFS)
+All four monitoring checks failed because the cloud execution environment's network policy blocks outbound HTTPS to external domains. The proxy returned `403 connect_rejected` for every target URL. **No data could be retrieved this run.**
 
 ---
 
 ## Task Results
 
-### 1. CMS Provider-and-Service Data (2024 release check)
-- **Status:** BLOCKED — could not reach data.cms.gov
-- Last known: 2023 data is current in repo
+### 1. CMS Provider-and-Service Data (Medicare Physician & Other Practitioners)
+- **Target:** `https://data.cms.gov/data.json`
+- **Result:** ❌ BLOCKED — `CONNECT tunnel failed, response 403` (egress policy)
+- **Finding:** Cannot determine if 2024 data is available
 
 ### 2. AASM Scoring Manual / Guideline Updates
-- **Status:** BLOCKED — could not reach aasm.org
+- **Target:** `https://aasm.org/clinical-resources/practice-standards/`
+- **Result:** ❌ BLOCKED — `CONNECT tunnel failed, response 403` (egress policy)
+- **Finding:** Cannot check for 2026 guideline updates
 
-### 3. Federal Register — Sleep Apnea Proposed Rules (2026)
-- **Status:** BLOCKED — could not reach federalregister.gov
+### 3. Federal Register — CMS Sleep Apnea Rules (2026)
+- **Target:** `https://www.federalregister.gov/api/v1/documents?...`
+- **Result:** ❌ BLOCKED — `CONNECT tunnel failed, response 403` (egress policy)
+- **Finding:** Cannot check for new proposed/final rules
 
-### 4. MPFS Updates (CPT codes: 95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457)
-- **Status:** BLOCKED — could not reach federalregister.gov
+### 4. MPFS Updates — Sleep & CCM CPT Codes (95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457)
+- **Target:** `https://www.federalregister.gov/api/v1/documents?...` (MPFS query)
+- **Result:** ❌ BLOCKED — same egress policy restriction
+- **Finding:** Cannot check for 2027 MPFS proposed rule or 2026 corrections
 
 ---
 
 ## Action Items
 
-> **ACTION REQUIRED:** The cloud session's network egress policy does not permit outbound HTTPS to data.cms.gov, aasm.org, or federalregister.gov. This monitor has been unable to run for 7 consecutive days (since 2026-10-07).
->
-> To fix: when creating a new Claude Code cloud session, select a network policy that allows outbound HTTPS to external government and medical organization domains. See https://code.claude.com/docs/en/claude-code-on-the-web for environment configuration options.
+1. **Fix network access** — The cloud session's egress policy must be updated to allow outbound HTTPS to:
+   - `data.cms.gov`
+   - `aasm.org`
+   - `www.federalregister.gov`
+
+   To update: go to your [Claude Code environment settings](https://code.claude.com/docs/en/claude-code-on-the-web) and configure the network policy to permit these domains.
+
+2. Once access is restored, re-run this monitoring routine — all four checks will execute automatically.
 
 ---
 
-*No changes detected — monitoring blocked.*
+*Previous known latest data: Medicare Provider-and-Service dataset through 2023-12-31*
