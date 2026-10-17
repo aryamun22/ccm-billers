@@ -1,31 +1,31 @@
 # CMS Data Monitor Report
 
-**Run Date/Time:** 2026-10-16 10:01:28 UTC  
-**Status:** ⚠️ BLOCKED — All external data sources unreachable (10th consecutive day, since 2026-10-07)
+**Run Date/Time:** 2026-10-17 10:01:21 UTC  
+**Status:** ⚠️ BLOCKED — All external data sources unreachable (11th consecutive day, since 2026-10-07)
 
 ---
 
 ## Summary
 
-All four monitoring checks failed because the cloud execution environment's network policy blocks outbound HTTPS to external domains. The proxy returned `403 connect_rejected` for every target URL. **No data could be retrieved this run.**
+All four monitoring checks failed because the cloud execution environment's network policy blocks outbound DNS resolution and HTTPS to external domains. Every fetch returned `getaddrinfo ENOTFOUND`. **No data could be retrieved this run.**
 
 ---
 
-## Task Results
+## Check Results
 
-### 1. CMS Provider-and-Service Data (Medicare Physician & Other Practitioners)
+### 1. CMS Medicare Provider-and-Service Data (2024 release check)
 - **Target:** `https://data.cms.gov/data.json`
-- **Result:** ❌ BLOCKED — `CONNECT tunnel failed, response 403` (egress policy denial)
+- **Result:** ❌ BLOCKED — `getaddrinfo ENOTFOUND data.cms.gov`
 - **Finding:** Cannot determine if 2024 data is available
 
-### 2. AASM Scoring Manual / Guideline Updates
+### 2. AASM Scoring Manual / Practice Standards (2026 updates)
 - **Target:** `https://aasm.org/clinical-resources/practice-standards/`
-- **Result:** ❌ BLOCKED — `CONNECT tunnel failed, response 403` (egress policy denial)
+- **Result:** ❌ BLOCKED — `getaddrinfo ENOTFOUND aasm.org`
 - **Finding:** Cannot check for 2026 guideline updates
 
 ### 3. Federal Register — CMS Sleep Apnea Rules (2026)
 - **Target:** `https://www.federalregister.gov/api/v1/documents?...`
-- **Result:** ❌ BLOCKED — `CONNECT tunnel failed, response 403` (egress policy denial)
+- **Result:** ❌ BLOCKED — `getaddrinfo ENOTFOUND www.federalregister.gov`
 - **Finding:** Cannot check for new proposed/final rules
 
 ### 4. MPFS Updates — Sleep & CCM CPT Codes (95810, 95811, 95806, G0399, 99490, 99439, 99487, 99491, 99453, 99454, 99457)
@@ -42,7 +42,7 @@ All four monitoring checks failed because the cloud execution environment's netw
    - `aasm.org`
    - `www.federalregister.gov`
 
-   To update: go to your [Claude Code environment settings](https://code.claude.com/docs/en/claude-code-on-the-web) and configure the network policy to permit these domains. **This monitor has been blocked for 10 consecutive days.**
+   To update: go to your [Claude Code environment settings](https://code.claude.com/docs/en/claude-code-on-the-web) and configure the network policy to permit these domains. **This monitor has been blocked for 11 consecutive days.**
 
 2. Once access is restored, re-run this monitoring routine — all four checks will execute automatically.
 
